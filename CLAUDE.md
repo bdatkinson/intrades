@@ -98,10 +98,47 @@ npm run type-check   # TypeScript check
 - NotebookLM: "Job Agent - Cost Estimator" notebook
 
 ## What "Done" Looks Like
-- All tests passing (unit + integration + E2E)
+
+### Phase 2 (v0.2.0 — Current)
+- All tests passing (unit + integration + E2E): **722 tests across 42 files**
 - TypeScript strict mode, no errors
 - Responsive on 375px–2560px viewports
 - Voice interaction works on mobile Chrome
 - Mentor personas respond with Socratic quality gates
 - No console errors or warnings
 - Accessible (WCAG 2.1 AA minimum)
+
+### Mentor System (Phase 2)
+The `src/features/mentors/` module implements the full Crew Deck:
+- **12 personas** defined as data in `data/personas.ts` (48KB of system prompts)
+- **4 suit domains:** ♠️ Tools & Tech, ♥️ Interpersonal, ♦️ Business, ♣️ Safety
+- **Socratic dialogue** via `DialogueEngine` (dialogue.ts) with keyword-based quality gates
+- **4 gate types:** comprehension-check → misconception → application → advancement
+- **Factual Companion Constraint** injected into every system prompt
+- **Session persistence** via `useMentorSession` hook (localStorage adapter pattern)
+- **Card UI:** MentorCard, MentorGrid (suit sections + filter tabs + search), MentorDetailPage (Resume/Start), MentorChatPage (dialogue)
+- **Loading states:** SkeletonCard/SkeletonText/SkeletonCircle with pulse animation
+- **Error handling:** ErrorBoundary wrapping Layout Outlet, inline chat errors
+- **ADR:** `docs/architecture/phase-2-mentor-cards.md`
+
+### Key Mentor Module Files
+```
+src/features/mentors/
+├── types.ts                       # Suit, Face, MentorPersona, Session, Gate types
+├── data/personas.ts               # 12 mentor fixtures + SUIT_DOMAINS
+├── dialogue.ts                    # DialogueEngine + FACTUAL_COMPANION_CONSTRAINT
+├── engine/quality-gates.ts        # QualityGateEngine (4 progressive gates)
+├── hooks/useMentorSession.ts      # localStorage session persistence
+└── components/
+    ├── MentorCard.tsx              # Individual card with suit colors + hover overlay
+    ├── MentorGrid.tsx              # Deck overview with tabs + search
+    ├── MentorDetailPage.tsx        # Full mentor profile + Resume/Start actions
+    ├── MentorChatPage.tsx          # Route: /mentors/:id/chat
+    └── MentorChat.tsx              # Chat UI with ChatMessageBubble + QualityGateIndicator
+```
+
+### Shared UI Components Added (Phase 2)
+- **SkeletonCard** — Animated pulse placeholder matching MentorCard shape (min-h 200px, count prop)
+- **SkeletonText** — Multi-line text skeleton with decreasing widths
+- **SkeletonCircle** — Circular skeleton (sm/md/lg)
+- **ErrorBoundary** — Class-based error boundary with retry button, used in Layout
