@@ -5,6 +5,7 @@ import './styles/global.css'
 import { lazy, Suspense } from 'react'
 import Layout from './components/Layout'
 import ProtectedRoute from './features/auth/ProtectedRoute'
+import { SkeletonCard } from './components/ui/SkeletonCard'
 
 const LoginPage = lazy(() => import('./features/auth/LoginPage'))
 const DeckView = lazy(() => import('./features/deck/components/DeckView'))
@@ -20,7 +21,7 @@ const WebsiteStep = lazy(() => import('./features/brt/steps/WebsiteStep').then(m
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-500 font-mono">Loading...</div>}>
+      <Suspense fallback={<LoadingFallback />}>
         <Routes>
           {/* Login is outside Layout — no nav until authenticated */}
           <Route path="/login" element={<LoginPage />} />
@@ -133,8 +134,8 @@ function Home() {
         />
         <FeatureCard
           title="Mentor Cards"
-          description="AI trade specialists who teach through questions, not answers."
-          status="coming soon"
+          description="12 AI trade specialists across 4 suit domains — learn through Socratic dialogue."
+          status="active"
         />
         <FeatureCard
           title="Job Agent"
@@ -178,9 +179,29 @@ function FeatureCard({ title, description, status }: {
     <div className="rounded-lg border border-slate-800 bg-slate-900 p-4">
       <h3 className="font-mono font-semibold text-sm">{title}</h3>
       <p className="text-slate-400 text-sm mt-2 leading-relaxed">{description}</p>
-      <span className="inline-block mt-3 text-xs px-2 py-1 rounded bg-slate-800 text-slate-500">
+      <span className={`inline-block mt-3 text-xs px-2 py-1 rounded font-mono ${
+        status === 'active' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800 text-slate-500'
+      }`}>
         {status}
       </span>
+    </div>
+  )
+}
+
+// ─── Loading Fallback ─────────────────────────────────────────────
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      <div className="w-full max-w-2xl">
+        <div className="mb-8 text-center">
+          <div className="h-6 w-32 rounded bg-slate-800 animate-pulse mx-auto mb-2" />
+          <div className="h-4 w-48 rounded bg-slate-800 animate-pulse mx-auto" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <SkeletonCard count={4} />
+        </div>
+      </div>
     </div>
   )
 }

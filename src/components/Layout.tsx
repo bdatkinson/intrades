@@ -15,7 +15,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans">
-      <header className="border-b border-slate-800 px-6 py-4 flex items-center justify-between">
+      <header className="border-b border-slate-800 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
         <button
           onClick={() => setShowSidebar(!showSidebar)}
           className="lg:hidden p-1 text-slate-400 hover:text-slate-200"
@@ -24,10 +24,10 @@ export default function Layout() {
           {showSidebar ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
         <div>
-          <h1 className="text-xl font-semibold font-mono tracking-tight">
+          <h1 className="text-lg sm:text-xl font-semibold font-mono tracking-tight">
             InTrades
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-400 mt-1">
             Skilled Trades Mentoring Platform
           </p>
         </div>
@@ -59,12 +59,12 @@ export default function Layout() {
           </nav>
         </aside>
 
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 sm:p-6">
           <Outlet />
         </main>
       </div>
 
-      <footer className="border-t border-slate-800 px-6 py-4 text-center text-xs text-slate-600 font-mono">
+      <footer className="border-t border-slate-800 px-4 sm:px-6 py-3 text-center text-xs text-slate-600 font-mono">
         &copy; {new Date().getFullYear()} InTrades
       </footer>
     </div>

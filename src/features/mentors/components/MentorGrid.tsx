@@ -134,8 +134,9 @@ export default function MentorGrid() {
         </p>
       </div>
 
-      {/* Tab bar */}
-      <div role="tablist" className="flex gap-1 mb-4 border-b border-slate-800">
+      {/* Tab bar — horizontally scrollable on narrow screens */}
+      <div className="mb-4 border-b border-slate-800 overflow-x-auto -mx-1 px-1">
+        <div role="tablist" className="flex gap-1 min-w-max">
         <TabButton
           active={activeTab === 'all'}
           onClick={() => setActiveTab('all')}
@@ -153,6 +154,7 @@ export default function MentorGrid() {
             {SUIT_DOMAINS[suit].symbol} {suit}
           </TabButton>
         ))}
+      </div>
       </div>
 
       {/* Search */}
