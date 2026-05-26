@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import type { FaceCard } from '../types';
 import { suitColorMap, suitSymbol } from '../utils';
@@ -54,13 +55,13 @@ export default function BRTCard({ faceCard }: BRTCardProps) {
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           Active
         </span>
-        <a
-          href={brtRoute}
+        <Link
+          to={brtRoute}
           className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-mono"
         >
           Start
           <ArrowRight className="w-3 h-3" />
-        </a>
+        </Link>
       </div>
     </article>
   );

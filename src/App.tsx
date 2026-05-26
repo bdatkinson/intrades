@@ -3,57 +3,96 @@ import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/ibm-plex-mono/600.css'
 import './styles/global.css'
 import { lazy, Suspense } from 'react'
+import Layout from './components/Layout'
 import ProtectedRoute from './features/auth/ProtectedRoute'
 
 const LoginPage = lazy(() => import('./features/auth/LoginPage'))
 const DeckView = lazy(() => import('./features/deck/components/DeckView'))
+const BRTPage = lazy(() => import('./features/brt/BRTPage').then(m => ({ default: m.BRTPage })))
+const BusinessNameStep = lazy(() => import('./features/brt/steps/BusinessNameStep').then(m => ({ default: m.BusinessNameStep })))
+const LLCFilingStep = lazy(() => import('./features/brt/steps/LLCFilingStep').then(m => ({ default: m.LLCFilingStep })))
+const BankInsuranceStep = lazy(() => import('./features/brt/steps/BankInsuranceStep').then(m => ({ default: m.BankInsuranceStep })))
+const WebsiteStep = lazy(() => import('./features/brt/steps/WebsiteStep').then(m => ({ default: m.WebsiteStep })))
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
-        <header className="border-b border-slate-800 px-6 py-4">
-          <h1 className="text-xl font-semibold font-mono tracking-tight">
-            InTrades
-          </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Skilled Trades Mentoring Platform
-          </p>
-        </header>
+      <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-500 font-mono">Loading...</div>}>
+        <Routes>
+          {/* Login is outside Layout — no nav until authenticated */}
+          <Route path="/login" element={<LoginPage />} />
 
-        <main className="px-6 py-8">
-          <Suspense fallback={<div className="text-slate-500">Loading...</div>}>
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/" element={<Home />} />
-              <Route
-                path="/deck"
-                element={
-                  <ProtectedRoute>
-                    <DeckView />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/mentors"
-                element={
-                  <ProtectedRoute>
-                    <Mentors />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </Suspense>
-        </main>
-      </div>
+          {/* All authenticated routes use Layout */}
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/deck"
+              element={
+                <ProtectedRoute>
+                  <DeckView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/mentors"
+              element={
+                <ProtectedRoute>
+                  <Mentors />
+                </ProtectedRoute>
+              }
+            />
+            {/* BRT Routes */}
+            <Route
+              path="/brt"
+              element={
+                <ProtectedRoute>
+                  <BRTPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/brt/name"
+              element={
+                <ProtectedRoute>
+                  <BusinessNameStep />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/brt/llc"
+              element={
+                <ProtectedRoute>
+                  <LLCFilingStep />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/brt/bank-insurance"
+              element={
+                <ProtectedRoute>
+                  <BankInsuranceStep />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/brt/website"
+              element={
+                <ProtectedRoute>
+                  <WebsiteStep />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }
@@ -68,6 +107,11 @@ function Home() {
         trade skills through Socratic dialogue.
       </p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <FeatureCard
+          title="The Deck"
+          description="52 cards — pitfall scenarios, face card mentors, and the Business Readiness Track."
+          status="active"
+        />
         <FeatureCard
           title="Mentor Cards"
           description="AI trade specialists who teach through questions, not answers."

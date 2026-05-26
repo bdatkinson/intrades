@@ -1,11 +1,16 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import DeckView from './DeckView';
 
 describe('DeckView', () => {
   beforeEach(() => {
-    render(<DeckView />);
+    render(
+      <MemoryRouter>
+        <DeckView />
+      </MemoryRouter>,
+    );
   });
 
   it('renders the main deck heading', () => {
