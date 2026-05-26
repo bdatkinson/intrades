@@ -1,9 +1,32 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
 import MentorCard from '../MentorCard'
 import type { MentorPersona } from '../../types'
 import { SUIT_DOMAINS } from '../../data/personas'
+
+// ─── Mock useNavigate ────────────────────────────────────────────
+
+const mockNavigate = vi.fn()
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  }
+})
+
+// ─── Helpers ─────────────────────────────────────────────────────
+
+function renderCard(persona: MentorPersona) {
+  return render(
+    <MemoryRouter>
+      <MentorCard persona={persona} />
+    </MemoryRouter>,
+  )
+}
 
 // Minimal fixture matching MentorPersona type
 const ironThorne: MentorPersona = {
@@ -41,7 +64,7 @@ describe('MentorCard', () => {
   // ── Static content ──
 
   it('renders the face indicator (KING/QUEEN/JACK) with suit symbol', () => {
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     // Face rank + suit symbol
     const faceEl = screen.getByText(/king/i)
     expect(faceEl).toBeInTheDocument()
@@ -50,42 +73,42 @@ describe('MentorCard', () => {
   })
 
   it('renders the mentor name in font-mono', () => {
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     const name = screen.getByText(/Jon "Iron" Thorne/)
     expect(name).toBeInTheDocument()
     expect(name.className).toContain('font-mono')
   })
 
   it('renders the trade', () => {
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     expect(screen.getByText('Structural Steel & Welding')).toBeInTheDocument()
   })
 
   it('renders city and state', () => {
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     expect(screen.getByText(/Pittsburgh, PA/)).toBeInTheDocument()
   })
 
   it('renders the personality badge (personalityVibe)', () => {
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     expect(screen.getByText('Gruff & Intimidating')).toBeInTheDocument()
   })
 
   it('renders the Why quote', () => {
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     expect(screen.getByText(/It's about permanence/)).toBeInTheDocument()
   })
 
   // ── Color accents per suit ──
 
   it('applies slate accent for spades suit', () => {
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     const card = screen.getByTestId('mentor-card-iron-thorne')
     expect(card.className).toContain('border-slate')
   })
 
   it('applies rose accent for hearts suit', () => {
-    render(<MentorCard persona={mateoFlores} />)
+    renderCard(mateoFlores)
     const card = screen.getByTestId('mentor-card-mateo-flores')
     expect(card.className).toContain('border-rose')
   })
@@ -93,14 +116,14 @@ describe('MentorCard', () => {
   // ── Face indicator variation ──
 
   it('shows JACK for jack face', () => {
-    render(<MentorCard persona={mateoFlores} />)
+    renderCard(mateoFlores)
     expect(screen.getByText(/JACK/)).toBeInTheDocument()
   })
 
   // ── Hover behavior: Start Dialogue ──
 
   it('hides Start Dialogue by default', () => {
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     const button = screen.getByTestId('mentor-card-start-dialogue')
     // Should be present in DOM but visually hidden (opacity-0 or invisible)
     expect(button).toBeInTheDocument()
@@ -109,7 +132,7 @@ describe('MentorCard', () => {
 
   it('reveals Start Dialogue on hover', async () => {
     const user = userEvent.setup()
-    render(<MentorCard persona={ironThorne} />)
+    renderCard(ironThorne)
     const card = screen.getByTestId('mentor-card-iron-thorne')
     await user.hover(card)
     const button = screen.getByTestId('mentor-card-start-dialogue')
@@ -128,12 +151,12 @@ describe('MentorCard', () => {
       name: 'Elena Rodriguez',
       card: { suit: 'spades', face: 'queen' },
     }
-    render(<MentorCard persona={elena} />)
+    renderCard(elena)
     expect(screen.getByText(/QUEEN/)).toBeInTheDocument()
   })
 
-  it('renders the card as an article element', () => {
-    render(<MentorCard persona={ironThorne} />)
-    expect(screen.getByRole('article')).toBeInTheDocument()
+  it('renders the card as a clickable element with button role', () => {
+    renderCard(ironThorne)
+    expect(screen.getByTestId('mentor-card-iron-thorne')).toHaveAttribute('role', 'button')
   })
 })

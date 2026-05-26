@@ -9,6 +9,8 @@ import ProtectedRoute from './features/auth/ProtectedRoute'
 const LoginPage = lazy(() => import('./features/auth/LoginPage'))
 const DeckView = lazy(() => import('./features/deck/components/DeckView'))
 const MentorGrid = lazy(() => import('./features/mentors/components/MentorGrid'))
+const MentorDetailPage = lazy(() => import('./features/mentors/components/MentorDetailPage'))
+const MentorChatPage = lazy(() => import('./features/mentors/components/MentorChatPage'))
 const BRTPage = lazy(() => import('./features/brt/BRTPage').then(m => ({ default: m.BRTPage })))
 const BusinessNameStep = lazy(() => import('./features/brt/steps/BusinessNameStep').then(m => ({ default: m.BusinessNameStep })))
 const LLCFilingStep = lazy(() => import('./features/brt/steps/LLCFilingStep').then(m => ({ default: m.LLCFilingStep })))
@@ -47,6 +49,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Mentors />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/mentors/:id"
+              element={
+                <ProtectedRoute>
+                  <MentorDetailPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/mentors/:id/chat"
+              element={
+                <ProtectedRoute>
+                  <MentorChatPage />
                 </ProtectedRoute>
               }
             />
