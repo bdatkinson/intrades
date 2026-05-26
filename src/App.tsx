@@ -8,6 +8,7 @@ import ProtectedRoute from './features/auth/ProtectedRoute'
 
 const LoginPage = lazy(() => import('./features/auth/LoginPage'))
 const DeckView = lazy(() => import('./features/deck/components/DeckView'))
+const MentorGrid = lazy(() => import('./features/mentors/components/MentorGrid'))
 const BRTPage = lazy(() => import('./features/brt/BRTPage').then(m => ({ default: m.BRTPage })))
 const BusinessNameStep = lazy(() => import('./features/brt/steps/BusinessNameStep').then(m => ({ default: m.BusinessNameStep })))
 const LLCFilingStep = lazy(() => import('./features/brt/steps/LLCFilingStep').then(m => ({ default: m.LLCFilingStep })))
@@ -147,12 +148,7 @@ function Dashboard() {
 }
 
 function Mentors() {
-  return (
-    <div className="max-w-2xl">
-      <h2 className="text-2xl font-bold mb-4">Mentors</h2>
-      <p className="text-slate-400">Your mentor connections will appear here.</p>
-    </div>
-  )
+  return <MentorGrid />
 }
 
 function FeatureCard({ title, description, status }: {
