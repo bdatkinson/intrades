@@ -31,8 +31,14 @@ export interface MentorPersona {
   suitDomain: SuitDomain
 }
 
+export type GateType =
+  | 'understanding-check'
+  | 'misconception'
+  | 'application-gate'
+  | 'advancement'
+
 export interface QualityGateResult {
-  type: 'understanding-check' | 'misconception' | 'advancement'
+  type: GateType
   passed: boolean
   feedback?: string
 }

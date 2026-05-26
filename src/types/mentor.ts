@@ -6,6 +6,7 @@ export type {
   MentorPersona,
   DialogueMessage,
   QualityGateResult,
+  GateType,
   MentorSession,
 } from '../features/mentors/types'
 
