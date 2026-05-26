@@ -33,3 +33,7 @@ npm-debug.log*
 *.tgz
 .cache/
 .vercel
+
+# Supabase CLI temp files
+supabase/.temp/
+*.tsbuildinfo
