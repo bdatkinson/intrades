@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { mentorPersonas } from '../data/personas'
 import MentorChat from './MentorChat'
@@ -8,7 +8,6 @@ import MentorChat from './MentorChat'
 
 export default function MentorChatPage() {
   const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
 
   const persona = mentorPersonas.find((m) => m.id === id)
 
@@ -23,15 +22,14 @@ export default function MentorChatPage() {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 py-2 border-b border-slate-800">
-        <button
-          type="button"
-          onClick={() => navigate(`/mentors/${id}`)}
-          aria-label="Back"
+        <Link
+          to={`/mentors/${id}`}
           className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 font-mono transition-colors"
+          aria-label="Back to Detail"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to {persona.nickname ?? persona.name}
-        </button>
+          Back to Detail
+        </Link>
       </div>
       <div className="flex-1 min-h-0">
         <MentorChat persona={persona} />

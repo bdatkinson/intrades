@@ -1,5 +1,4 @@
 import { MessageCircle } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 import type { MentorPersona, Suit } from '../types'
 import { SUIT_DOMAINS } from '../data/personas'
 
@@ -51,37 +50,28 @@ const FACE_LABEL: Record<MentorPersona['card']['face'], string> = {
 
 interface MentorCardProps {
   persona: MentorPersona
+  onClick?: () => void
 }
 
-export default function MentorCard({ persona }: MentorCardProps) {
+export default function MentorCard({ persona, onClick }: MentorCardProps) {
   const { card, name, trade, city, state, personalityVibe, whyQuote } = persona
   const colors = suitColorMap[card.suit]
   const domain = SUIT_DOMAINS[card.suit]
-  const navigate = useNavigate()
-
-  const handleClick = () => {
-    navigate('/mentors/' + persona.id)
-  }
 
   return (
     <article
-      data-testid={'mentor-card-' + persona.id}
+      data-testid={`mentor-card-${persona.id}`}
+      className={`group relative rounded-lg border ${colors.border} ${colors.bg} p-5 flex flex-col overflow-hidden transition-shadow hover:shadow-lg hover:shadow-slate-900/50 cursor-pointer`}
+      onClick={onClick}
       role="button"
       tabIndex={0}
-      onClick={handleClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          handleClick()
-        }
-      }}
-      className={'group relative rounded-lg border ' + colors.border + ' ' + colors.bg + ' p-5 flex flex-col overflow-hidden transition-shadow hover:shadow-lg hover:shadow-slate-900/50 cursor-pointer'}
+      onKeyDown={onClick ? (e) => { if (e.key === 'Enter') onClick() } : undefined}
     >
       {/* Card header: face + suit */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span
-            className={'text-xs font-mono font-semibold tracking-wider ' + colors.muted}
+            className={`text-xs font-mono font-semibold tracking-wider ${colors.muted}`}
           >
             {FACE_LABEL[card.face]}
           </span>
@@ -90,7 +80,7 @@ export default function MentorCard({ persona }: MentorCardProps) {
           </span>
         </div>
         <span
-          className={'text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border ' + colors.badge}
+          className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${colors.badge}`}
         >
           {personalityVibe}
         </span>
@@ -98,7 +88,7 @@ export default function MentorCard({ persona }: MentorCardProps) {
 
       {/* Name */}
       <h3
-        className={'font-mono font-semibold text-base ' + colors.text + ' leading-snug mb-1'}
+        className={`font-mono font-semibold text-base ${colors.text} leading-snug mb-1`}
       >
         {name}
       </h3>
@@ -123,8 +113,7 @@ export default function MentorCard({ persona }: MentorCardProps) {
       >
         <button
           type="button"
-          onClick={handleClick}
-          className={'flex items-center gap-2 px-4 py-2 rounded-md border ' + colors.border + ' ' + colors.bg + ' ' + colors.text + ' font-mono text-sm hover:brightness-125 transition-all'}
+          className={`flex items-center gap-2 px-4 py-2 rounded-md border ${colors.border} ${colors.bg} ${colors.text} font-mono text-sm hover:brightness-125 transition-all`}
         >
           <MessageCircle className="w-4 h-4" />
           Start Dialogue

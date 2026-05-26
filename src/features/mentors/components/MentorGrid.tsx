@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { Suit, MentorPersona } from '../types'
 import { mentorPersonas, SUIT_DOMAINS } from '../data/personas'
 import MentorCard from './MentorCard'
@@ -40,7 +41,7 @@ type TabFilter = 'all' | Suit
 
 // ─── SuitSection ──────────────────────────────────────────────────
 
-function SuitSection({ suit, mentors }: { suit: Suit; mentors: MentorPersona[] }) {
+function SuitSection({ suit, mentors, onMentorClick }: { suit: Suit; mentors: MentorPersona[]; onMentorClick: (id: string) => void }) {
   const domain = SUIT_DOMAINS[suit]
   const colors = suitHeaderColors[suit]
 
@@ -65,7 +66,7 @@ function SuitSection({ suit, mentors }: { suit: Suit; mentors: MentorPersona[] }
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
       >
         {mentors.map((mentor) => (
-          <MentorCard key={mentor.id} persona={mentor} />
+          <MentorCard key={mentor.id} persona={mentor} onClick={() => onMentorClick(mentor.id)} />
         ))}
       </div>
     </section>
@@ -75,6 +76,7 @@ function SuitSection({ suit, mentors }: { suit: Suit; mentors: MentorPersona[] }
 // ─── MentorGrid ───────────────────────────────────────────────────
 
 export default function MentorGrid() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<TabFilter>('all')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -174,7 +176,7 @@ export default function MentorGrid() {
       {/* Mentor sections */}
       {groupedBySuit.length > 0 ? (
         groupedBySuit.map(({ suit, mentors }) => (
-          <SuitSection key={suit} suit={suit} mentors={mentors} />
+          <SuitSection key={suit} suit={suit} mentors={mentors} onMentorClick={(id) => navigate(`/mentors/${id}`)} />
         ))
       ) : (
         <div className="text-center py-16">
