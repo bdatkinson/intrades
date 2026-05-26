@@ -285,12 +285,12 @@ describe('System Prompts — Edge Cases', () => {
     }
   })
 
-  it('no prompt exceeds 2600 characters (keep prompts focused)', () => {
+  it('no prompt exceeds 4200 characters (keep prompts focused but detailed)', () => {
     for (const mentor of mentorPersonas) {
       expect(
         getPrompt(mentor).length,
         `${mentor.id}: prompt too long (${getPrompt(mentor).length} chars)`,
-      ).toBeLessThan(2600)
+      ).toBeLessThan(4200)
     }
   })
 
@@ -299,6 +299,122 @@ describe('System Prompts — Edge Cases', () => {
       const prompt = getPrompt(mentor)
       const openingIndex = prompt.lastIndexOf('OPENING:')
       expect(openingIndex).toBeGreaterThan(prompt.length * 0.7)
+    }
+  })
+})
+
+// ─── Enhanced Depth Tests ──────────────────────────────────────────
+
+describe('System Prompts — Depth and Richness', () => {
+  it('each prompt has at least 4 in-character speech examples in teaching method', () => {
+    for (const mentor of mentorPersonas) {
+      const prompt = getPrompt(mentor)
+      const teachingSection = extractSection(prompt, 'TEACHING METHOD')
+      expect(teachingSection).not.toBeNull()
+
+      // Count quoted speech examples (phrases in double quotes that are in-character)
+      const quotedSpeech = (teachingSection!.match(/"([^"]{3,})"/g) || []).length
+      expect(
+        quotedSpeech,
+        `${mentor.id}: only ${quotedSpeech} speech examples in teaching method (need 4+)`,
+      ).toBeGreaterThanOrEqual(4)
+    }
+  })
+
+  it('each prompt has at least 2 domain-specific Socratic scenario questions', () => {
+    for (const mentor of mentorPersonas) {
+      const prompt = getPrompt(mentor)
+      const teachingSection = extractSection(prompt, 'TEACHING METHOD')
+      expect(teachingSection).not.toBeNull()
+
+      // Count "what"-style or "how"-style questions that include domain terms
+      const questions = (
+        teachingSection!.match(/"([^"]*\?[^"]*)"/g) || []
+      ).length
+      expect(
+        questions,
+        `${mentor.id}: only ${questions} Socratic question examples (need 2+)`,
+      ).toBeGreaterThanOrEqual(2)
+    }
+  })
+
+  it('each prompt redirects to at least 2 specific mentors by name in constraints', () => {
+    for (const mentor of mentorPersonas) {
+      const prompt = getPrompt(mentor)
+      // Find the redirect/domain section
+      const constraintsSection = extractSection(prompt, 'CONSTRAINTS')
+      expect(constraintsSection).not.toBeNull()
+
+      // Count references to other mentors by specific name
+      const mentorNames = [
+        'Iron', 'Elena', 'Jax',
+        'Sal', 'Ma', 'Mateo',
+        'David', 'Aisha', 'Kenji',
+        'Big Mike', 'Maria', 'Tyrell',
+      ]
+      const mentions = mentorNames.filter((name) =>
+        constraintsSection!.includes(name),
+      )
+      // Exclude self-references (the mentor's own name appearing in their redirect)
+      const selfName = mentor.name.split(' ').pop()?.replace(/["']/g, '') || ''
+      const externalMentions = mentions.filter((n) => n !== selfName && !mentor.name.includes(n))
+
+      expect(
+        externalMentions.length,
+        `${mentor.id}: only ${externalMentions.length} specific mentor redirects (need 2+): [${externalMentions.join(', ')}]`,
+      ).toBeGreaterThanOrEqual(2)
+    }
+  })
+
+  it('each prompt references at least one real trade scenario in teaching method', () => {
+    for (const mentor of mentorPersonas) {
+      const prompt = getPrompt(mentor)
+      const teachingSection = extractSection(prompt, 'TEACHING METHOD')
+      expect(teachingSection).not.toBeNull()
+
+      // Look for scenario indicators: "the time you", "the [noun] that", stories
+      const hasScenario =
+        teachingSection!.includes('the time') ||
+        teachingSection!.includes('the bridge') ||
+        teachingSection!.includes('the job') ||
+        teachingSection!.includes('the project') ||
+        teachingSection!.includes('the family') ||
+        teachingSection!.includes('the roof') ||
+        teachingSection!.includes('the trench') ||
+        teachingSection!.includes('the lawsuit') ||
+        teachingSection!.includes('real') ||
+        teachingSection!.includes('Share real')
+
+      expect(
+        hasScenario,
+        `${mentor.id}: no real trade scenario found in teaching method`,
+      ).toBe(true)
+    }
+  })
+
+  it('no two mentors share the same \"Use your personality\" example phrases', () => {
+    const personalityPhrases = mentorPersonas.map((m) => {
+      const teachingSection = extractSection(getPrompt(m), 'TEACHING METHOD')
+      // Extract the "Use your personality:" bullet's content
+      const match = teachingSection?.match(/Use your personality:(.+?)$/ms)
+      return match ? match[1].trim().slice(0, 80) : ''
+    })
+    const unique = new Set(personalityPhrases.filter((p) => p.length > 0))
+    expect(unique.size).toBe(12)
+  })
+
+  it('each personality section names at least 3 specific speech-pattern traits', () => {
+    for (const mentor of mentorPersonas) {
+      const prompt = getPrompt(mentor)
+      const personalitySection = extractSection(prompt, 'PERSONALITY')
+      expect(personalitySection).not.toBeNull()
+
+      // Count sentences (roughly) — a detailed personality should have many specific traits
+      const sentences = personalitySection!.split(/[.!]/).filter((s) => s.trim().length > 10)
+      expect(
+        sentences.length,
+        `${mentor.id}: only ${sentences.length} personality detail sentences (need 5+)`,
+      ).toBeGreaterThanOrEqual(5)
     }
   })
 })
