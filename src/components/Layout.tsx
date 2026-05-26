@@ -1,6 +1,7 @@
 import { Menu, X, LayoutDashboard, Layers, Briefcase } from 'lucide-react';
 import { Outlet, NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import { ErrorBoundary } from './ui/ErrorBoundary';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', icon: null },
@@ -60,7 +61,9 @@ export default function Layout() {
         </aside>
 
         <main className="flex-1 p-4 sm:p-6">
-          <Outlet />
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
         </main>
       </div>
 

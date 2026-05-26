@@ -6,6 +6,7 @@ import { lazy, Suspense } from 'react'
 import Layout from './components/Layout'
 import ProtectedRoute from './features/auth/ProtectedRoute'
 import { SkeletonCard } from './components/ui/SkeletonCard'
+import { ErrorBoundary } from './components/ui/ErrorBoundary'
 
 const LoginPage = lazy(() => import('./features/auth/LoginPage'))
 const DeckView = lazy(() => import('./features/deck/components/DeckView'))
