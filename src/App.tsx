@@ -3,7 +3,9 @@ import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/ibm-plex-mono/600.css'
 import './styles/global.css'
 import { lazy, Suspense } from 'react'
+import ProtectedRoute from './features/auth/ProtectedRoute'
 
+const LoginPage = lazy(() => import('./features/auth/LoginPage'))
 const DeckView = lazy(() => import('./features/deck/components/DeckView'))
 
 function App() {
@@ -22,8 +24,32 @@ function App() {
         <main className="px-6 py-8">
           <Suspense fallback={<div className="text-slate-500">Loading...</div>}>
             <Routes>
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/" element={<Home />} />
-              <Route path="/deck" element={<DeckView />} />
+              <Route
+                path="/deck"
+                element={
+                  <ProtectedRoute>
+                    <DeckView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/mentors"
+                element={
+                  <ProtectedRoute>
+                    <Mentors />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </Suspense>
         </main>
@@ -63,6 +89,24 @@ function Home() {
           status="coming soon"
         />
       </div>
+    </div>
+  )
+}
+
+function Dashboard() {
+  return (
+    <div className="max-w-2xl">
+      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
+      <p className="text-slate-400">Your learning dashboard will appear here.</p>
+    </div>
+  )
+}
+
+function Mentors() {
+  return (
+    <div className="max-w-2xl">
+      <h2 className="text-2xl font-bold mb-4">Mentors</h2>
+      <p className="text-slate-400">Your mentor connections will appear here.</p>
     </div>
   )
 }
