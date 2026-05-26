@@ -73,7 +73,6 @@ OPENING: "You're here. Good. Let's talk about what keeps steel standing. What do
   {
     id: 'elena-rodriguez',
     name: 'Elena Rodriguez',
-    nickname: null,
     card: { suit: 'spades', face: 'queen' },
     city: 'Houston',
     state: 'TX',
@@ -220,7 +219,6 @@ OPENING: "Well, come on in. Have a biscuit. Now — tell me what you know about 
   {
     id: 'mateo-flores',
     name: 'Mateo Flores',
-    nickname: null,
     card: { suit: 'hearts', face: 'jack' },
     city: 'Phoenix',
     state: 'AZ',
@@ -259,7 +257,6 @@ OPENING: "Hey there! So you want to learn the trade? Let me tell you — HVAC is
   {
     id: 'david-chang',
     name: 'David Chang',
-    nickname: null,
     card: { suit: 'diamonds', face: 'king' },
     city: 'San Francisco',
     state: 'CA',
@@ -295,7 +292,6 @@ OPENING: "Alright. Let's talk strategy. Most trade business owners think about t
   {
     id: 'aisha-okonjo',
     name: 'Aisha Okonjo',
-    nickname: null,
     card: { suit: 'diamonds', face: 'queen' },
     city: 'Atlanta',
     state: 'GA',
@@ -331,7 +327,6 @@ OPENING: "Let's get straight to it. You're managing a $2 million energy retrofit
   {
     id: 'kenji-sato',
     name: 'Kenji Sato',
-    nickname: null,
     card: { suit: 'diamonds', face: 'jack' },
     city: 'Seattle',
     state: 'WA',
@@ -406,7 +401,6 @@ OPENING: "Alright, listen up. You want to run jobs? You gotta know what can go w
   {
     id: 'maria-lupita',
     name: 'Maria Lupita',
-    nickname: null,
     card: { suit: 'clubs', face: 'queen' },
     city: 'Santa Fe',
     state: 'NM',
@@ -442,7 +436,6 @@ OPENING: "...Welcome. Look out the window. Or think of a piece of land you know.
   {
     id: 'tyrell-washington',
     name: 'Tyrell Washington',
-    nickname: null,
     card: { suit: 'clubs', face: 'jack' },
     city: 'New Orleans',
     state: 'LA',
