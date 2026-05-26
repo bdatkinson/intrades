@@ -12,16 +12,16 @@ export interface GateCriteria {
 }
 
 export const GATE_CRITERIA: Record<GateType, GateCriteria> = {
-  'comprehension-check': {
-    type: 'comprehension-check',
+  'understanding-check': {
+    type: 'understanding-check',
     name: 'Comprehension Check',
     description:
       'After explaining a concept, check whether the learner can explain it back in their own words — not just repeat the definition.',
     evaluationPrompt:
       'Evaluate whether the learner demonstrates genuine understanding of the concept. They should explain it in their own words, not just parrot the definition. Return JSON: { "passed": boolean, "feedback": "your reasoning in 1–2 sentences in the mentor\'s voice" }. Feedback should be Socratic — if they pass, confirm briefly; if they fail, ask a question that guides them toward understanding.',
   },
-  'misconception-probe': {
-    type: 'misconception-probe',
+  'misconception': {
+    type: 'misconception',
     name: 'Misconception Probe',
     description:
       'Detect whether the learner holds a wrong assumption or misconception about the concept. Does not advance until addressed.',
@@ -36,8 +36,8 @@ export const GATE_CRITERIA: Record<GateType, GateCriteria> = {
     evaluationPrompt:
       'Evaluate whether the learner can apply the concept to a practical scenario. They should demonstrate working knowledge — not just recite theory. Return JSON: { "passed": boolean, "feedback": "your reasoning in 1–2 sentences in the mentor\'s voice" }. If they fail, the feedback should present a concrete scenario or counter-example that reveals the gap.',
   },
-  'advancement-gate': {
-    type: 'advancement-gate',
+  'advancement': {
+    type: 'advancement',
     name: 'Advancement Gate',
     description:
       'All three prior gates passed for the current topic — evaluate whether the learner is ready to unlock the next topic.',
@@ -69,10 +69,10 @@ export class QualityGateEngine {
    * including advancement are passed (topic complete).
    */
   getActiveGate(gatesPassed: Record<GateType, boolean>): GateType | null {
-    if (!gatesPassed['comprehension-check']) return 'comprehension-check'
-    if (!gatesPassed['misconception-probe']) return 'misconception-probe'
+    if (!gatesPassed['understanding-check']) return 'understanding-check'
+    if (!gatesPassed['misconception']) return 'misconception'
     if (!gatesPassed['application-gate']) return 'application-gate'
-    if (!gatesPassed['advancement-gate']) return 'advancement-gate'
+    if (!gatesPassed['advancement']) return 'advancement'
     return null
   }
 

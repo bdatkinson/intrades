@@ -98,6 +98,8 @@ export class DialogueEngine {
         return this.evaluateUnderstanding(content)
       case 'misconception':
         return this.evaluateMisconception(content)
+      case 'application-gate':
+        return this.evaluateAdvancement(content)
       case 'advancement':
         return this.evaluateAdvancement(content)
     }

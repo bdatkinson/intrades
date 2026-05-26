@@ -12,10 +12,10 @@ function makeGateState(
   advancement = false,
 ): Record<GateType, boolean> {
   return {
-    'comprehension-check': comprehension,
-    'misconception-probe': misconception,
+    'understanding-check': comprehension,
+    'misconception': misconception,
     'application-gate': application,
-    'advancement-gate': advancement,
+    'advancement': advancement,
   }
 }
 
@@ -32,13 +32,13 @@ describe('QualityGateEngine', () => {
     it('returns comprehension-check when no gates are passed', () => {
       const engine = new QualityGateEngine(makeMockAI('{}'))
       const state = makeGateState(false, false, false, false)
-      expect(engine.getActiveGate(state)).toBe('comprehension-check')
+      expect(engine.getActiveGate(state)).toBe('understanding-check')
     })
 
     it('returns misconception-probe when comprehension is passed', () => {
       const engine = new QualityGateEngine(makeMockAI('{}'))
       const state = makeGateState(true, false, false, false)
-      expect(engine.getActiveGate(state)).toBe('misconception-probe')
+      expect(engine.getActiveGate(state)).toBe('misconception')
     })
 
     it('returns application-gate when comprehension and misconception are passed', () => {
@@ -50,7 +50,7 @@ describe('QualityGateEngine', () => {
     it('returns advancement-gate when comprehension, misconception, and application are passed', () => {
       const engine = new QualityGateEngine(makeMockAI('{}'))
       const state = makeGateState(true, true, true, false)
-      expect(engine.getActiveGate(state)).toBe('advancement-gate')
+      expect(engine.getActiveGate(state)).toBe('advancement')
     })
 
     it('returns null when all gates including advancement are passed', () => {
@@ -70,7 +70,7 @@ describe('QualityGateEngine', () => {
         JSON.stringify({ passed: true, feedback: 'Correct — you identified both the beam weight and permanent attachments.' }),
       )
       const engine = new QualityGateEngine(mockAI)
-      const result = await engine.evaluateGate('comprehension-check', topic, concept, learnerResponse)
+      const result = await engine.evaluateGate('understanding-check', topic, concept, learnerResponse)
       expect(result.passed).toBe(true)
       expect(result.feedback).toContain('Correct')
     })
@@ -80,7 +80,7 @@ describe('QualityGateEngine', () => {
         JSON.stringify({ passed: false, feedback: 'You repeated the definition but did not show understanding in your own words.' }),
       )
       const engine = new QualityGateEngine(mockAI)
-      const result = await engine.evaluateGate('comprehension-check', topic, concept, 'Dead load is static weight, live load is variable.')
+      const result = await engine.evaluateGate('understanding-check', topic, concept, 'Dead load is static weight, live load is variable.')
       expect(result.passed).toBe(false)
     })
 
@@ -89,7 +89,7 @@ describe('QualityGateEngine', () => {
         JSON.stringify({ passed: true, feedback: 'No misconception detected.' }),
       )
       const engine = new QualityGateEngine(mockAI)
-      const result = await engine.evaluateGate('misconception-probe', topic, concept, learnerResponse)
+      const result = await engine.evaluateGate('misconception', topic, concept, learnerResponse)
       expect(result.passed).toBe(true)
     })
 
@@ -99,7 +99,7 @@ describe('QualityGateEngine', () => {
       )
       const engine = new QualityGateEngine(mockAI)
       const result = await engine.evaluateGate(
-        'misconception-probe',
+        'misconception',
         topic,
         concept,
         'Dead load changes depending on how many people are in the building.',
@@ -142,7 +142,7 @@ describe('QualityGateEngine', () => {
       )
       const engine = new QualityGateEngine(mockAI)
       const result = await engine.evaluateGate(
-        'advancement-gate',
+        'advancement',
         topic,
         concept,
         'I can explain dead vs live load, identify common mistakes, and apply it to a real beam sizing problem.',
@@ -153,7 +153,7 @@ describe('QualityGateEngine', () => {
     it('handles AI service returning malformed JSON gracefully', async () => {
       const mockAI = makeMockAI('not valid json at all')
       const engine = new QualityGateEngine(mockAI)
-      const result = await engine.evaluateGate('comprehension-check', topic, concept, learnerResponse)
+      const result = await engine.evaluateGate('understanding-check', topic, concept, learnerResponse)
       expect(result.passed).toBe(false)
       expect(result.feedback).toContain('error')
     })
@@ -162,7 +162,7 @@ describe('QualityGateEngine', () => {
       const svc = new AIService('anthropic', { provider: 'anthropic', apiKey: 'test-key' })
       vi.spyOn(svc, 'sendMessage').mockRejectedValue(new Error('API timeout'))
       const engine = new QualityGateEngine(svc)
-      const result = await engine.evaluateGate('comprehension-check', topic, concept, learnerResponse)
+      const result = await engine.evaluateGate('understanding-check', topic, concept, learnerResponse)
       expect(result.passed).toBe(false)
       expect(result.feedback).toContain('Evaluation error')
     })
@@ -170,18 +170,18 @@ describe('QualityGateEngine', () => {
     it('returns the correct gate type in the result', async () => {
       const mockAI = makeMockAI(JSON.stringify({ passed: true }))
       const engine = new QualityGateEngine(mockAI)
-      const result = await engine.evaluateGate('misconception-probe', topic, concept, learnerResponse)
-      expect(result.type).toBe('misconception-probe')
+      const result = await engine.evaluateGate('misconception', topic, concept, learnerResponse)
+      expect(result.type).toBe('misconception')
     })
   })
 
   describe('GATE_CRITERIA', () => {
     it('has criteria for all four gate types', () => {
       const types: GateType[] = [
-        'comprehension-check',
-        'misconception-probe',
+        'understanding-check',
+        'misconception',
         'application-gate',
-        'advancement-gate',
+        'advancement',
       ]
       for (const t of types) {
         const criteria = GATE_CRITERIA[t]
@@ -194,13 +194,13 @@ describe('QualityGateEngine', () => {
     })
 
     it('comprehension check evaluates whether learner can explain in own words', () => {
-      const criteria = GATE_CRITERIA['comprehension-check']
+      const criteria = GATE_CRITERIA['understanding-check']
       expect(criteria.name).toBe('Comprehension Check')
       expect(criteria.description).toContain('own words')
     })
 
     it('misconception probe evaluates whether learner has wrong assumptions', () => {
-      const criteria = GATE_CRITERIA['misconception-probe']
+      const criteria = GATE_CRITERIA['misconception']
       expect(criteria.name).toBe('Misconception Probe')
       expect(criteria.description).toContain('wrong')
     })
@@ -212,7 +212,7 @@ describe('QualityGateEngine', () => {
     })
 
     it('advancement gate evaluates readiness for next topic', () => {
-      const criteria = GATE_CRITERIA['advancement-gate']
+      const criteria = GATE_CRITERIA['advancement']
       expect(criteria.name).toBe('Advancement Gate')
       expect(criteria.description).toContain('next topic')
     })
