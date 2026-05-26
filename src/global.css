@@ -1,0 +1,36 @@
+@import './theme';
+
+:root {
+  --color-primary: #{theme.colors.primary};
+  --color-secondary: #{theme.colors.secondary}; 
+  --color-accent: #{theme.colors.accent};
+  --color-background: #{theme.colors.background};
+  --color-text: #{theme.colors.text};
+
+  --font-family: #{theme.typography.fontFamily};
+  --line-height: #{theme.typography.lineHeight};
+  --font-size-small: #{theme.typography.sizes.small};
+  --font-size-base: #{theme.typography.sizes.base};
+  --font-size-large: #{theme.typography.sizes.large};
+
+  --spacing-small: #{theme.spacing.small};
+  --spacing-base: #{theme.spacing.base};
+  --spacing-large: #{theme.spacing.large};
+}
+
+body {
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-primary);
+}
+
+button {
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--spacing-base);
+}

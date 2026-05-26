@@ -60,14 +60,32 @@
 
 ---
 
-## Deck Structure Summary
+## Deck Structure — Full 52 Cards
 
-| Suit | Domain | Number Cards (1-9) | Face Cards (K/Q/J) |
-|------|--------|--------------------|---------------------|
-| ♠️ Spades | Tools & Technology | 9 pitfall scenarios | 3 capstone activities (TBD) |
-| ♥️ Hearts | Interpersonal & Customer Service | 9 pitfall scenarios | 3 capstone activities (TBD) |
-| ♦️ Diamonds | Business Acumen | 9 pitfall scenarios | 3 capstone activities (TBD) |
-| ♣️ Clubs | Safety, Compliance & Risk | 9 pitfall scenarios | 3 capstone activities (TBD) |
+| Suit | Domain | Number Cards (2-10) | Jack | Queen | King | Ace |
+|------|--------|---------------------|------|-------|------|-----|
+| ♠️ Spades | Tools & Technology | 9 pitfall scenarios | Capstone (coming soon) | Capstone (coming soon) | Capstone (coming soon) | Capstone (coming soon) |
+| ♥️ Hearts | Interpersonal & Customer Service | 9 pitfall scenarios | Capstone (coming soon) | Capstone (coming soon) | Capstone (coming soon) | Capstone (coming soon) |
+| ♦️ Diamonds | Business Acumen (Business Readiness Track) | 9 pitfall scenarios | BRT Step | BRT Step | BRT Step | BRT Step |
+| ♣️ Clubs | Safety, Compliance & Risk | 9 pitfall scenarios | Capstone (coming soon) | Capstone (coming soon) | Capstone (coming soon) | Capstone (coming soon) |
 
-**Total: 36 pitfall scenarios + 12 capstone face cards = 48 cards**
-*(4 more needed for a full 52-card deck — Aces? Jokers?)*
+**Total: 36 pitfall scenarios + 16 face/ace cards = 52 cards**
+
+## ♦️ Diamonds Face Cards — Business Readiness Track (BRT)
+
+The Diamonds face cards form a guided path to business formation. Each is an interactive milestone:
+
+| Card | BRT Step | Description |
+|------|----------|-------------|
+| J♦️ | Select Business Name & Domain | Choose a business name, check availability, register a domain name |
+| Q♦️ | File for KY LLC | Step-by-step guided walkthrough of Kentucky LLC formation (SOS filing) |
+| K♦️ | Open Commercial Bank Account & Get Insurance | Open a business checking account + request insurance quotes (Thimble/Arch) |
+| A♦️ | Create Business Website | Build a simple one-page business website with contact info, services, and branding |
+
+## All Other Suits — Face Cards (Coming Soon)
+
+| Card | Status |
+|------|--------|
+| J/Q/K/A of ♠️ Spades | Coming soon — capstone activities TBD |
+| J/Q/K/A of ♥️ Hearts | Coming soon — capstone activities TBD |
+| J/Q/K/A of ♣️ Clubs | Coming soon — capstone activities TBD |

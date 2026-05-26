@@ -26,7 +26,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^24.12.3",
+    "@types/node": "^24.12.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
@@ -39,6 +39,16 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12",
-    "vitest": "^4.1.7"
-  }
+    "vitest": "^4.1.7",
+    "vitest-fetch-mock": "^0.4.5"
+  },
+  "description": "A React-based mentoring platform with AI-powered dialogues, powered by: - Web Speech API  - Anthropic Claude API",
+  "main": "eslint.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

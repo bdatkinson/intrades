@@ -1,7 +1,21 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "tests"],
+  "exclude": ["node_modules", "dist"]
 }
