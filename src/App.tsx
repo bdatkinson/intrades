@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/ibm-plex-mono/600.css'
 import './styles/global.css'
+import { lazy, Suspense } from 'react'
+
+const DeckView = lazy(() => import('./features/deck/components/DeckView'))
 
 function App() {
   return (
@@ -17,9 +20,12 @@ function App() {
         </header>
 
         <main className="px-6 py-8">
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>
+          <Suspense fallback={<div className="text-slate-500">Loading...</div>}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/deck" element={<DeckView />} />
+            </Routes>
+          </Suspense>
         </main>
       </div>
     </BrowserRouter>
