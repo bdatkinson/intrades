@@ -49,7 +49,7 @@ export const BRT_STEPS: BRTStep[] = [
     card: 'ace',
     title: 'Create Business Website',
     subtitle: 'Build your digital storefront',
-    status: 'active',
+    status: 'locked',
     route: '/brt/website',
   },
 ];
