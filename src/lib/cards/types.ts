@@ -11,6 +11,16 @@ export interface Card {
   value: number // 1–13 (Ace=1, King=13)
   name: string
   description: string
+  swappable?: Array<{ key: string; default: string; current: string }>
+  runId?: string
+  crosscutIds?: string[]
+  mentorId?: string
+  title?: string
+  problem?: string
+  objectives?: string[]
+  rounds?: Array<{ title: string; prompt: string }>
+  hints?: string[]
+  lineage?: any
 }
 
 /** Ordered metadata for each suit */

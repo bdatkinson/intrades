@@ -191,7 +191,7 @@ function LocalizePanel({ card }: { card: Card }) {
   return (
     <div className="p-4">
       <p className="text-sm text-slate-500 italic">
-        {hasSwappables ? `${card.swappable.length} swappable variables available.` : "No swappable variables defined. Use the Workbench Localize Mode to flag fields for translation."}
+        {hasSwappables ? `${card.swappable?.length} swappable variables available.` : "No swappable variables defined. Use the Workbench Localize Mode to flag fields for translation."}
       </p>
     </div>
   )
@@ -215,7 +215,7 @@ function LinkedPanel({ card }: { card: Card }) {
           Crosscuts
         </h4>
         <p className="text-sm text-slate-500 italic">
-          {hasCrosscuts ? `Linked to crosscuts: ${card.crosscutIds.join(', ')}` : "No crosscuts linked to this card."}
+          {hasCrosscuts ? `Linked to crosscuts: ${card.crosscutIds?.join(', ')}` : "No crosscuts linked to this card."}
         </p>
       </div>
     </div>
