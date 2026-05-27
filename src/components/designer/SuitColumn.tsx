@@ -21,7 +21,7 @@ import type { Suit, Card } from '../../lib/cards/types'
 
 // ─── Sortable Slot ───────────────────────────────────────────────
 
-function SortableSlot({ value, card }: { value: number; card: Card | null }) {
+function SortableSlot({ value, card, onClick }: { value: number; card: Card | null; onClick?: (card: Card) => void }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: `slot-${value}`, disabled: !card })
 
@@ -38,6 +38,7 @@ function SortableSlot({ value, card }: { value: number; card: Card | null }) {
       {...attributes}
       {...listeners}
       aria-disabled={!card}
+      onClick={() => { if (card && onClick) onClick(card) }}
       className={`
         w-full h-12 flex items-center gap-2 px-3 border-2 border-dashed rounded-none
         font-mono text-sm text-left transition-none
@@ -79,9 +80,10 @@ function GhostSlot({ card }: { card: Card }) {
 
 interface SuitColumnProps {
   suit: Suit
+  onCardClick?: (card: Card) => void
 }
 
-export function SuitColumn({ suit }: SuitColumnProps) {
+export function SuitColumn({ suit, onCardClick }: SuitColumnProps) {
   const cards = useDesignerStore((s) => s.cards)
   const dragPreview = useDesignerStore((s) => s.dragPreview)
   const setDragPreview = useDesignerStore((s) => s.setDragPreview)
