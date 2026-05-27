@@ -209,23 +209,24 @@ describe('Workbench', () => {
     expect(hasTearCut).toBe(true)
   })
 
-  it('Preview as Student button logs action or navigates', () => {
-    const consoleSpy = ((globalThis as unknown as Record<string, unknown>).console as Console)
-    const originalLog = consoleSpy.log
-    const logs: string[] = []
-    consoleSpy.log = (...args: unknown[]) => {
-      logs.push(args.map(String).join(' '))
-    }
+  it('Preview as Student saves cards to sessionStorage and navigates to /deck', () => {
+    const cards: Card[] = [
+      { id: 'h1', suit: 'hammer', value: 1, name: 'Framing Hammer', description: 'Drive nails.' },
+      { id: 'w2', suit: 'wrench', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw.' },
+    ]
+    useDesignerStore.setState({ cards, undoStack: [], redoStack: [], dragPreview: null })
 
     renderWorkbench()
     const previewBtn = screen.getByRole('button', { name: /preview as student/i })
     fireEvent.click(previewBtn)
 
-    // Accept either a console log (stub) or navigation attempt
-    const hit = logs.some(l => l.includes('Preview') || l.includes('preview') || l.includes('deck'))
-    expect(hit).toBe(true)
-
-    consoleSpy.log = originalLog
+    // Verify cards were written to sessionStorage
+    const stored = sessionStorage.getItem('intrades-preview-cards')
+    expect(stored).not.toBeNull()
+    const parsed = JSON.parse(stored!)
+    expect(parsed).toHaveLength(2)
+    expect(parsed[0].name).toBe('Framing Hammer')
+    expect(parsed[1].name).toBe('Pipe Wrench')
   })
 
   it('Share button opens a dropdown with .intc and .md options', () => {

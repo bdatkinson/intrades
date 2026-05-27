@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { CardDetailSheet } from '../CardDetailSheet'
 import { useDesignerStore } from '../../../store/designerStore'
 import type { Card } from '../../../lib/cards/types'

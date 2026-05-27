@@ -161,7 +161,7 @@ describe('downloadIntc', () => {
     const revokedUrls: string[] = []
     const originalCreateObjectURL = URL.createObjectURL
     const originalRevokeObjectURL = URL.revokeObjectURL
-    URL.createObjectURL = (blob: Blob) => {
+    URL.createObjectURL = () => {
       const url = `blob:mock-${createdUrls.length}`
       createdUrls.push(url)
       return url
@@ -201,7 +201,7 @@ describe('downloadIntc', () => {
     const createdUrls: string[] = []
     const originalCreateObjectURL = URL.createObjectURL
     const originalRevokeObjectURL = URL.revokeObjectURL
-    URL.createObjectURL = (_blob: Blob) => {
+    URL.createObjectURL = () => {
       const url = `blob:mock`
       createdUrls.push(url)
       return url

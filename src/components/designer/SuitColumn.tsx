@@ -16,12 +16,12 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useDesignerStore } from '../../store/designerStore'
-import { SUIT_META, valueIndex } from '../../lib/cards/types'
+import { SUIT_META } from '../../lib/cards/types'
 import type { Suit, Card } from '../../lib/cards/types'
 
 // ─── Sortable Slot ───────────────────────────────────────────────
 
-function SortableSlot({ value, card, onClick }: { value: number; card: Card | null; onClick?: (card: Card) => void }) {
+function SortableSlot({ value, card, onClick, suit }: { value: number; card: Card | null; onClick?: (card: Card) => void; suit: Suit }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: `slot-${value}`, disabled: !card })
 
@@ -38,6 +38,9 @@ function SortableSlot({ value, card, onClick }: { value: number; card: Card | nu
       {...attributes}
       {...listeners}
       aria-disabled={!card}
+      aria-label={card ? `${suit} ${value}: ${card.name}` : `${suit} ${value}: empty slot`}
+      aria-roledescription="sortable card slot"
+      data-slot-value={value}
       onClick={() => { if (card && onClick) onClick(card) }}
       className={`
         w-full h-12 flex items-center gap-2 px-3 border-2 border-dashed rounded-none
@@ -165,9 +168,9 @@ export function SuitColumn({ suit, onCardClick }: SuitColumnProps) {
       {/* Header */}
       <div className="flex items-center gap-2 px-1 mb-1">
         <span className="text-lg">{meta.symbol}</span>
-        <h3 className="font-mono font-semibold text-sm text-slate-300 uppercase tracking-wider">
+        <h2 className="font-mono font-semibold text-sm text-slate-300 uppercase tracking-wider">
           {meta.label}
-        </h3>
+        </h2>
       </div>
 
       {/* Slots */}
@@ -198,7 +201,7 @@ export function SuitColumn({ suit, onCardClick }: SuitColumnProps) {
                 )
               }
 
-              return <SortableSlot key={value} value={value} card={card} />
+              return <SortableSlot key={value} value={value} card={card} suit={suit} onClick={onCardClick} />
             })}
           </div>
         </SortableContext>

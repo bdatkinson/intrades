@@ -187,29 +187,36 @@ function ScenarioPanel({ card }: { card: Card }) {
 }
 
 function LocalizePanel({ card }: { card: Card }) {
+  const hasSwappables = card.swappable && card.swappable.length > 0;
   return (
     <div className="p-4">
       <p className="text-sm text-slate-500 italic">
-        No swappable variables defined. Use the Workbench Localize Mode to flag fields for translation.
+        {hasSwappables ? `${card.swappable.length} swappable variables available.` : "No swappable variables defined. Use the Workbench Localize Mode to flag fields for translation."}
       </p>
     </div>
   )
 }
 
 function LinkedPanel({ card }: { card: Card }) {
+  const hasRuns = !!card.runId;
+  const hasCrosscuts = card.crosscutIds && card.crosscutIds.length > 0;
   return (
     <div className="p-4 space-y-3">
       <div>
         <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
           Runs
         </h4>
-        <p className="text-sm text-slate-500 italic">No runs linked to this card.</p>
+        <p className="text-sm text-slate-500 italic">
+          {hasRuns ? `Linked to run: ${card.runId}` : "No runs linked to this card."}
+        </p>
       </div>
       <div>
         <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
           Crosscuts
         </h4>
-        <p className="text-sm text-slate-500 italic">No crosscuts linked to this card.</p>
+        <p className="text-sm text-slate-500 italic">
+          {hasCrosscuts ? `Linked to crosscuts: ${card.crosscutIds.join(', ')}` : "No crosscuts linked to this card."}
+        </p>
       </div>
     </div>
   )
@@ -380,7 +387,7 @@ export function CardDetailSheet({ card, onClose }: CardDetailSheetProps) {
           <TabBar active={activeTab} onChange={setActiveTab} />
 
           {/* Tab Content — scrollable */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto" role="tabpanel" aria-label={activeTab}>
             {activeTab === 'scenario' && <ScenarioPanel card={card} />}
             {activeTab === 'localize' && <LocalizePanel card={card} />}
             {activeTab === 'linked' && <LinkedPanel card={card} />}

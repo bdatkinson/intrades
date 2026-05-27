@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useDesignerStore } from '../../store/designerStore'
 import { SuitColumn } from '../../components/designer/SuitColumn'
 import { SUITS } from '../../lib/cards/types'
@@ -48,9 +47,8 @@ export function Workbench() {
   // ─── Action handlers ──────────────────────────────────────────
 
   const handlePreview = () => {
-    // Navigate to /deck with current cards state.
-    // For now, stub-log and navigate. Future: pass cards via transient state.
-    console.log('[Workbench] Preview as Student — navigating to /deck with', cards.length, 'cards')
+    // Push current cards to sessionStorage so Showcase on /deck can read them.
+    sessionStorage.setItem('intrades-preview-cards', JSON.stringify(cards))
     navigate('/deck')
   }
 
@@ -76,6 +74,17 @@ export function Workbench() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 font-sans">
+      {/* ─── Accessibility: Skip link ─────────────────────────── */}
+      <a href="#card-grid" className="skip-link">
+        Skip to card grid
+      </a>
+
+      {/* ─── Screen-reader help text ──────────────────────── */}
+      <p className="sr-only">
+        Use tab to move through cards. Arrow keys reorder within a column. Enter
+        opens the card detail sidebar. ESC closes the sidebar.
+      </p>
+
       {/* ─── Header ─────────────────────────────────────────── */}
       <header className="flex items-center justify-between px-4 py-3 border-b-2 border-slate-800">
         <h1 className="font-mono font-semibold text-sm uppercase tracking-widest text-slate-400">
@@ -89,7 +98,11 @@ export function Workbench() {
 
       {/* ─── Suit Columns ───────────────────────────────────── */}
       <main className="p-4 pb-24">
-        <div className="grid grid-cols-4 gap-4 max-w-[960px] mx-auto">
+        <div
+          id="card-grid"
+          aria-label="Card Designer Workbench"
+          className="grid grid-cols-4 gap-4 max-w-[960px] mx-auto"
+        >
           {SUITS.map((suit: Suit) => (
             <SuitColumn key={suit} suit={suit} />
           ))}
@@ -99,6 +112,8 @@ export function Workbench() {
       {/* ─── CARD-W07: Floating Dock ──────────────────────────── */}
       <div
         data-testid="designer-dock"
+        role="navigation"
+        aria-label="Designer actions"
         className="
           fixed bottom-4 right-4 z-50
           bg-slate-900 border border-slate-700
@@ -131,6 +146,7 @@ export function Workbench() {
             onClick={() => setShareOpen((o) => !o)}
             aria-label="Share"
             title="Share deck"
+            aria-haspopup="true"
             aria-expanded={shareOpen}
             className="
               w-full font-mono text-xs uppercase tracking-wider px-3 py-2
