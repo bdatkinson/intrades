@@ -1,0 +1,8 @@
+.hermes/
+node_modules/
+*.log
+playwright-report/
+test-results/
+.env
+.env.local
+.env.*.local
