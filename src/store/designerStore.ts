@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { computeCascade } from '../lib/store/cascade'
+import { createSeedCards } from '../lib/cards/seed'
 import type { Card, Suit, DragPreview, UndoAction } from '../lib/cards/types'
 
 interface DesignerState {
@@ -30,6 +31,20 @@ interface DesignerState {
 
   /** Clear drag preview */
   clearDragPreview: () => void
+
+  /** Duplicate a card into the next empty slot in the same suit */
+  duplicateCard: (card: Card) => void
+
+  /** Reset a card to its seed state (by id) */
+  resetCard: (cardId: string) => void
+}
+
+function pushUndo(cards: Card[], undoStack: UndoAction[]): UndoAction[] {
+  const action: UndoAction = {
+    cards: [...cards],
+    timestamp: Date.now(),
+  }
+  return [...undoStack, action].slice(-20)
 }
 
 export const useDesignerStore = create<DesignerState>((set, get) => ({
@@ -44,24 +59,16 @@ export const useDesignerStore = create<DesignerState>((set, get) => ({
     const { cards, undoStack } = get()
     if (fromValue === toValue) return
 
-    // Check card exists
     const dragged = cards.find(c => c.suit === suit && c.value === fromValue)
     if (!dragged) return
 
-    // Push undo snapshot BEFORE mutating
-    const action: UndoAction = {
-      cards: [...cards],
-      timestamp: Date.now(),
-    }
-    const nextStack = [...undoStack, action].slice(-20)
-
-    // Compute cascade
+    const nextUndoStack = pushUndo(cards, undoStack)
     const nextCards = computeCascade(cards, suit, fromValue, toValue)
 
     set({
       cards: nextCards,
-      undoStack: nextStack,
-      redoStack: [], // new action invalidates redo history
+      undoStack: nextUndoStack,
+      redoStack: [],
       dragPreview: null,
     })
   },
@@ -71,7 +78,6 @@ export const useDesignerStore = create<DesignerState>((set, get) => ({
     if (undoStack.length === 0) return
     const prev = undoStack[undoStack.length - 1]
 
-    // Push current state onto redo stack before restoring
     const redoAction: UndoAction = {
       cards: [...cards],
       timestamp: Date.now(),
@@ -90,7 +96,6 @@ export const useDesignerStore = create<DesignerState>((set, get) => ({
     if (redoStack.length === 0) return
     const next = redoStack[redoStack.length - 1]
 
-    // Push current state onto undo stack before restoring
     const undoAction: UndoAction = {
       cards: [...cards],
       timestamp: Date.now(),
@@ -123,4 +128,60 @@ export const useDesignerStore = create<DesignerState>((set, get) => ({
   },
 
   clearDragPreview: () => set({ dragPreview: null }),
+
+  duplicateCard: (card) => {
+    const { cards, undoStack } = get()
+
+    // Find the next empty slot in the same suit
+    const suitCards = cards.filter(c => c.suit === card.suit)
+    const usedValues = new Set(suitCards.map(c => c.value))
+    let nextValue = 1
+    while (usedValues.has(nextValue) && nextValue <= 13) {
+      nextValue++
+    }
+
+    if (nextValue > 13) {
+      // No empty slots — nothing to do
+      return
+    }
+
+    const nextUndoStack = pushUndo(cards, undoStack)
+
+    const duplicate: Card = {
+      ...card,
+      id: `dup-${card.suit}-${nextValue}-${Date.now()}`,
+      value: nextValue,
+      name: `${card.name} (copy)`,
+    }
+
+    set({
+      cards: [...cards, duplicate],
+      undoStack: nextUndoStack,
+      redoStack: [],
+    })
+  },
+
+  resetCard: (cardId) => {
+    const { cards, undoStack } = get()
+    const seedCards = createSeedCards()
+
+    // Find the card to reset, then find matching seed by suit + value
+    const target = cards.find(c => c.id === cardId)
+    if (!target) return
+
+    const seed = seedCards.find(s => s.suit === target.suit && s.value === target.value)
+    if (!seed) return // No seed card at this suit+value — nothing to reset
+
+    const nextUndoStack = pushUndo(cards, undoStack)
+
+    const nextCards = cards.map(c =>
+      c.id === cardId ? { ...c, name: seed.name, description: seed.description } : c,
+    )
+
+    set({
+      cards: nextCards,
+      undoStack: nextUndoStack,
+      redoStack: [],
+    })
+  },
 }))
