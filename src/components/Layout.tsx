@@ -1,4 +1,4 @@
-import { Menu, X, LayoutDashboard, Layers, Briefcase } from 'lucide-react';
+import { Menu, X, LayoutDashboard, Layers, Briefcase, Wrench } from 'lucide-react';
 import { Outlet, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { ErrorBoundary } from './ui/ErrorBoundary';
@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { to: '/', label: 'Home', icon: null },
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/deck', label: 'The Deck', icon: Layers },
+  { to: '/designer', label: 'Card Designer', icon: Wrench },
   { to: '/mentors', label: 'Mentors', icon: null },
   { to: '/brt', label: 'Business Readiness', icon: Briefcase },
 ] as const;
