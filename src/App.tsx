@@ -18,6 +18,7 @@ const BusinessNameStep = lazy(() => import('./features/brt/steps/BusinessNameSte
 const LLCFilingStep = lazy(() => import('./features/brt/steps/LLCFilingStep').then(m => ({ default: m.LLCFilingStep })))
 const BankInsuranceStep = lazy(() => import('./features/brt/steps/BankInsuranceStep').then(m => ({ default: m.BankInsuranceStep })))
 const WebsiteStep = lazy(() => import('./features/brt/steps/WebsiteStep').then(m => ({ default: m.WebsiteStep })))
+const Workbench = lazy(() => import('./features/designer/Workbench').then(m => ({ default: m.Workbench })))
 
 function App() {
   return (
@@ -108,6 +109,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <WebsiteStep />
+                </ProtectedRoute>
+              }
+            />
+            {/* Designer Routes */}
+            <Route
+              path="/designer"
+              element={
+                <ProtectedRoute>
+                  <Workbench />
                 </ProtectedRoute>
               }
             />
