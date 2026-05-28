@@ -1,15 +1,11 @@
-import { Menu, X, LayoutDashboard, Layers, Briefcase, Wrench } from 'lucide-react';
+import { Menu, X, Layers, Wrench } from 'lucide-react';
 import { Outlet, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { ErrorBoundary } from './ui/ErrorBoundary';
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Home', icon: null },
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/deck', label: 'The Deck', icon: Layers },
   { to: '/designer', label: 'Card Designer', icon: Wrench },
-  { to: '/mentors', label: 'Mentors', icon: null },
-  { to: '/brt', label: 'Business Readiness', icon: Briefcase },
+  { to: '/deck', label: 'The Deck', icon: Layers },
 ] as const;
 
 export default function Layout() {
@@ -30,7 +26,7 @@ export default function Layout() {
             InTrades
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Skilled Trades Mentoring Platform
+            Card Designer
           </p>
         </div>
       </header>
@@ -44,7 +40,6 @@ export default function Layout() {
               <NavLink
                 key={item.to}
                 to={item.to}
-                end={item.to === '/'}
                 onClick={() => setShowSidebar(false)}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-mono transition-colors ${

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Layout from './Layout';
 
-function renderLayout(initialRoute = '/') {
+function renderLayout(initialRoute = '/designer') {
   return render(
     <MemoryRouter initialEntries={[initialRoute]}>
       <Layout />
@@ -26,11 +26,8 @@ describe('Layout', () => {
 
   it('renders navigation links', () => {
     renderLayout();
-    expect(screen.getByRole('link', { name: /home/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /dashboard/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /card designer/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /the deck/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /business readiness/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /mentors/i })).toBeInTheDocument();
   });
 
   it('highlights the active nav link', () => {
@@ -48,7 +45,6 @@ describe('Layout', () => {
 
   it('renders the Outlet for child routes', () => {
     renderLayout();
-    // The main element renders the Outlet — it's present
     const main = screen.getByRole('main');
     expect(main).toBeInTheDocument();
   });
