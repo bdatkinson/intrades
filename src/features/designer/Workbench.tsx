@@ -19,7 +19,6 @@ export function Workbench() {
   const redo = useDesignerStore((s) => s.redo)
   const cards = useDesignerStore((s) => s.cards)
   const undoDepth = useDesignerStore((s) => s.undoStack.length)
-  const redoDepth = useDesignerStore((s) => s.redoStack.length)
   const navigate = useNavigate()
 
   const [shareOpen, setShareOpen] = useState(false)
@@ -73,7 +72,7 @@ export function Workbench() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans">
+    <div className="bg-slate-950 text-slate-200 font-sans">
       {/* ─── Accessibility: Skip link ─────────────────────────── */}
       <a href="#card-grid" className="skip-link">
         Skip to card grid
@@ -84,17 +83,6 @@ export function Workbench() {
         Use tab to move through cards. Arrow keys reorder within a column. Enter
         opens the card detail sidebar. ESC closes the sidebar.
       </p>
-
-      {/* ─── Header ─────────────────────────────────────────── */}
-      <header className="flex items-center justify-between px-4 py-3 border-b-2 border-slate-800">
-        <h1 className="font-mono font-semibold text-sm uppercase tracking-widest text-slate-400">
-          Designer
-        </h1>
-        <span className="font-mono text-xs text-slate-600">
-          {undoDepth > 0 && `${undoDepth} action${undoDepth !== 1 ? 's' : ''} in undo`}
-          {redoDepth > 0 && ` · ${redoDepth} in redo`}
-        </span>
-      </header>
 
       {/* ─── Suit Columns ───────────────────────────────────── */}
       <main className="p-4 pb-24">

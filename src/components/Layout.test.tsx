@@ -36,11 +36,14 @@ describe('Layout', () => {
     expect(deckLink.className).toContain('text-amber-400');
   });
 
-  it('has sidebar toggle button on mobile', () => {
+  it('renders navigation links inline in the header bar', () => {
     renderLayout();
-    const toggleBtn = screen.getByLabelText(/open sidebar/i);
-    expect(toggleBtn).toBeInTheDocument();
-    expect(toggleBtn.className).toContain('lg:hidden');
+    const header = screen.getByRole('banner');
+    const navLinks = header.querySelectorAll('a');
+    expect(navLinks.length).toBe(2);
+    // Nav links should be visible (no hidden/lg:hidden classes)
+    const nav = screen.getByRole('navigation', { name: /main navigation/i });
+    expect(nav.className).not.toContain('hidden');
   });
 
   it('renders the Outlet for child routes', () => {
