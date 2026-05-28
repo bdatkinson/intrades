@@ -26,10 +26,10 @@ export default function LoginPage() {
     try {
       if (mode === 'signin') {
         await signIn(email, password)
-        navigate('/dashboard')
+        navigate('/designer')
       } else {
         await signUp(email, password)
-        navigate('/dashboard')
+        navigate('/designer')
       }
     } finally {
       setSubmitting(false)
