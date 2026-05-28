@@ -5,12 +5,14 @@
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Selection color — industrial amber */
+::selection {
+  background-color: rgb(245 158 11 / 0.3);
 }
 
-/* Selection color */
-::selection {
-  background-color: rgb(59 130 246 / 0.3);
+/* Industrial brutalism base */
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #09090b;
+  color: #f4f4f5;
 }

@@ -11,26 +11,6 @@ const LoginPage = lazy(() => import('./features/auth/LoginPage'))
 const Workbench = lazy(() => import('./features/designer/Workbench').then(m => ({ default: m.Workbench })))
 const Showcase = lazy(() => import('./components/cards/Showcase').then(m => ({ default: m.Showcase })))
 
-const PREVIEW_KEY = 'intrades-preview-cards'
-
-function DeckRoute() {
-  const hasPreview = (() => {
-    try {
-      const raw = sessionStorage.getItem(PREVIEW_KEY)
-      if (raw) {
-        const parsed = JSON.parse(raw)
-        return Array.isArray(parsed) && parsed.length > 0
-      }
-    } catch { /* corrupt */ }
-    return false
-  })()
-
-  if (hasPreview) {
-    return <ProtectedRoute><Showcase /></ProtectedRoute>
-  }
-  return <Navigate to="/designer" replace />
-}
-
 function App() {
   return (
     <BrowserRouter>
@@ -39,7 +19,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Navigate to="/designer" replace />} />
-            <Route path="/deck" element={<DeckRoute />} />
+            <Route path="/deck" element={<ProtectedRoute><Showcase /></ProtectedRoute>} />
             <Route path="/designer" element={<ProtectedRoute><Workbench /></ProtectedRoute>} />
           </Route>
         </Routes>
@@ -50,11 +30,11 @@ function App() {
 
 function LoadingFallback() {
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
       <div className="w-full max-w-2xl">
         <div className="mb-8 text-center">
-          <div className="h-6 w-32 rounded bg-slate-800 animate-pulse mx-auto mb-2" />
-          <div className="h-4 w-48 rounded bg-slate-800 animate-pulse mx-auto" />
+          <div className="h-6 w-32 rounded-none bg-zinc-800 animate-pulse mx-auto mb-2" />
+          <div className="h-4 w-48 rounded-none bg-zinc-800 animate-pulse mx-auto" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"><SkeletonCard count={4} /></div>
       </div>

@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from './AuthProvider'
-import { Card, CardHeader, CardContent, CardFooter } from '../../components/ui/Card'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
 import { Mail, Key } from 'lucide-react'
@@ -37,21 +36,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <h1 className="text-xl font-mono font-bold text-slate-100">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
+      <div className="w-full max-w-md rounded-none border border-zinc-700 bg-zinc-900 p-0">
+        <div className="px-6 py-4 border-b border-zinc-700">
+          <h1 className="text-xl font-mono font-semibold text-zinc-100 uppercase tracking-widest">
             {mode === 'signin' ? 'Sign In' : 'Create Account'}
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-zinc-400 mt-1 font-mono">
             {mode === 'signin'
               ? 'Welcome back to InTrades'
               : 'Start your skilled trades journey'}
           </p>
-        </CardHeader>
+        </div>
 
         <form onSubmit={handleSubmit}>
-          <CardContent className="flex flex-col gap-4">
+          <div className="p-6 flex flex-col gap-4">
             <Input
               id="email"
               name="email"
@@ -75,9 +74,9 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
             />
-          </CardContent>
+          </div>
 
-          <CardFooter className="flex flex-col gap-3">
+          <div className="px-6 py-4 border-t border-zinc-700 bg-zinc-950/40 flex flex-col gap-3">
             <Button
               type="submit"
               className="w-full"
@@ -86,14 +85,14 @@ export default function LoginPage() {
               {mode === 'signin' ? 'Sign In' : 'Create Account'}
             </Button>
 
-            <p className="text-xs text-slate-500 font-mono">
+            <p className="text-xs text-zinc-500 font-mono">
               {mode === 'signin' ? (
                 <>
                   Don't have an account?{' '}
                   <button
                     type="button"
                     onClick={toggleMode}
-                    className="text-blue-400 hover:text-blue-300 underline"
+                    className="text-amber-400 hover:text-amber-300 underline"
                   >
                     Create one
                   </button>
@@ -104,16 +103,16 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={toggleMode}
-                    className="text-blue-400 hover:text-blue-300 underline"
+                    className="text-amber-400 hover:text-amber-300 underline"
                   >
                     Sign in
                   </button>
                 </>
               )}
             </p>
-          </CardFooter>
+          </div>
         </form>
-      </Card>
+      </div>
     </div>
   )
 }

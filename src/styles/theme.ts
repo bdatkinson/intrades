@@ -1,25 +1,15 @@
-// InTrades Design System Theme
+// InTrades Design System Theme — Industrial Brutalism
 
 export const theme = {
   colors: {
-    primary: '#005f73',
-    secondary: '#0a9396',
-    accent: '#94d2bd',
-    background: '#e9d8a6',
-    text: '#001219',
+    background: '#09090b',   // zinc-950
+    surface: '#18181b',      // zinc-900
+    border: '#3f3f46',       // zinc-700
+    text: '#f4f4f5',         // zinc-100
+    muted: '#71717a',        // zinc-500
   },
   typography: {
-    fontFamily: `'IBM Plex Mono', monospace`,
-    lineHeight: 1.6,
-    sizes: {
-      small: '0.875rem',
-      base: '1rem', 
-      large: '1.25rem',
-    },
+    fontFamily: "'IBM Plex Mono', monospace",
+    lineHeight: 1.5,
   },
-  spacing: {
-    small: '0.5rem',
-    base: '1rem',
-    large: '2rem',
-  }
-};
+}

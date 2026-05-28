@@ -9,15 +9,12 @@ const NAV_ITEMS = [
 
 export default function Layout() {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans">
-      <header className="border-b border-slate-800 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+    <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 font-mono">
+      <header className="border-b border-zinc-800 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between font-mono">
         <div>
-          <h1 className="text-lg sm:text-xl font-semibold font-mono tracking-tight">
-            InTrades
+          <h1 className="text-lg sm:text-xl font-semibold font-mono tracking-widest uppercase text-zinc-100">
+            INTRADES
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Card Designer
-          </p>
         </div>
         <nav className="flex items-center gap-2" aria-label="Main navigation">
           {NAV_ITEMS.map((item) => (
@@ -25,10 +22,10 @@ export default function Layout() {
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-mono transition-colors ${
+                `flex items-center gap-2 px-3 py-2 rounded-none border text-sm font-mono transition-colors ${
                   isActive
-                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                    ? 'border-amber-500 text-amber-400 bg-amber-950/20'
+                    : 'border-zinc-700 text-zinc-400 hover:text-zinc-100 hover:border-zinc-500'
                 }`
               }
             >
@@ -45,7 +42,7 @@ export default function Layout() {
         </ErrorBoundary>
       </main>
 
-      <footer className="border-t border-slate-800 px-4 sm:px-6 py-3 text-center text-xs text-slate-600 font-mono">
+      <footer className="border-t border-zinc-800 px-4 sm:px-6 py-3 text-center text-xs text-zinc-500 font-mono">
         &copy; {new Date().getFullYear()} InTrades
       </footer>
     </div>

@@ -45,19 +45,21 @@ function SortableSlot({ value, card, onClick, suit }: { value: number; card: Car
       className={`
         w-full h-12 flex items-center gap-2 px-3 border-2 border-dashed rounded-none
         font-mono text-sm text-left transition-none
-        ${card
-          ? 'border-slate-700 bg-slate-900 text-slate-200 cursor-grab active:cursor-grabbing'
-          : 'border-slate-800 bg-transparent text-slate-600 cursor-default'
+        ${isDragging
+          ? 'border-amber-500 bg-amber-950/20 text-zinc-200 cursor-grabbing'
+          : card
+            ? 'border-zinc-700 bg-zinc-900 text-zinc-200 cursor-grab active:cursor-grabbing'
+            : 'border-zinc-800 bg-transparent text-zinc-600 cursor-default'
         }
       `}
     >
-      <span className="w-6 text-slate-500 text-xs text-right tabular-nums shrink-0">
+      <span className="w-6 text-zinc-500 text-xs text-right tabular-nums shrink-0">
         {value}
       </span>
       {card ? (
         <span className="truncate">{card.name}</span>
       ) : (
-        <span className="italic text-slate-600 text-xs">empty</span>
+        <span className="italic text-zinc-600 text-xs">empty</span>
       )}
     </button>
   )
@@ -68,13 +70,13 @@ function SortableSlot({ value, card, onClick, suit }: { value: number; card: Car
 function GhostSlot({ card }: { card: Card }) {
   return (
     <div
-      className="w-full h-12 flex items-center gap-2 px-3 border-2 border-dashed border-slate-600 rounded-none font-mono text-sm text-left"
+      className="w-full h-12 flex items-center gap-2 px-3 border-2 border-dashed border-zinc-600 rounded-none font-mono text-sm text-left"
       style={{ opacity: 0.45 }}
     >
-      <span className="w-6 text-slate-500 text-xs text-right tabular-nums shrink-0">
+      <span className="w-6 text-zinc-500 text-xs text-right tabular-nums shrink-0">
         {card.value}
       </span>
-      <span className="truncate text-slate-300">{card.name}</span>
+      <span className="truncate text-zinc-300">{card.name}</span>
     </div>
   )
 }
@@ -168,7 +170,7 @@ export function SuitColumn({ suit, onCardClick }: SuitColumnProps) {
       {/* Header */}
       <div className="flex items-center gap-2 px-1 mb-1">
         <span className="text-lg">{meta.symbol}</span>
-        <h2 className="font-mono font-semibold text-sm text-slate-300 uppercase tracking-wider">
+        <h2 className="font-mono font-semibold text-sm text-zinc-300 uppercase tracking-widest">
           {meta.label}
         </h2>
       </div>
@@ -196,7 +198,7 @@ export function SuitColumn({ suit, onCardClick }: SuitColumnProps) {
                 ) : (
                   <div
                     key={value}
-                    className="w-full h-12 border-2 border-dashed border-slate-800/40 rounded-none"
+                    className="w-full h-12 border-2 border-dashed border-zinc-800/40 rounded-none"
                   />
                 )
               }

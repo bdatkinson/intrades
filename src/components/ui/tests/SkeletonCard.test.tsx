@@ -22,10 +22,10 @@ describe('SkeletonCard', () => {
     expect(el.className).toMatch(/my-custom/)
   })
 
-  it('renders a card-shaped skeleton (rounded-lg, border)', () => {
+  it('renders a card-shaped skeleton (rounded-none, border)', () => {
     const { container } = render(<SkeletonCard />)
     const el = container.firstElementChild!
-    expect(el.className).toMatch(/rounded-lg/)
+    expect(el.className).toMatch(/rounded-none/)
   })
 
   it('renders at full width by default', () => {
@@ -65,7 +65,7 @@ describe('SkeletonText', () => {
     expect(lines.length).toBeGreaterThanOrEqual(3)
   })
 
-  it('each line has a rounded-full look', () => {
+  it('each line has a hard-corner look', () => {
     const { container } = render(<SkeletonText lines={1} />)
     const el = container.firstElementChild!
     expect(el.className).toMatch(/rounded/)
@@ -73,12 +73,12 @@ describe('SkeletonText', () => {
 })
 
 describe('SkeletonCircle', () => {
-  it('renders a circular skeleton', () => {
+  it('renders a hard-corner skeleton block', () => {
     const { container } = render(<SkeletonCircle />)
     const el = container.firstElementChild!
     expect(el).toBeInTheDocument()
     expect(el).toHaveAttribute('aria-hidden', 'true')
-    expect(el.className).toMatch(/rounded-full/)
+    expect(el.className).toMatch(/rounded-none/)
   })
 
   it('accepts a size prop', () => {

@@ -18,31 +18,31 @@ export function SkeletonCard({ count = 1, className = '', 'data-testid': testId 
       key={i}
       aria-hidden="true"
       data-testid={testId ? (count === 1 ? testId : `${testId}-${i}`) : undefined}
-      className={`w-full min-h-[200px] rounded-lg border border-slate-800 bg-slate-900/50 p-5 flex flex-col gap-3 animate-pulse ${className}`}
+      className={`w-full min-h-[200px] rounded-none border border-zinc-700 bg-zinc-900/50 p-5 flex flex-col gap-3 animate-pulse ${className}`}
     >
       {/* Card header: face label + suit symbol + personality badge */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="h-3 w-10 rounded bg-slate-800" />
-          <div className="h-5 w-5 rounded bg-slate-800" />
+          <div className="h-3 w-10 rounded-none bg-zinc-800" />
+          <div className="h-5 w-5 rounded-none bg-zinc-800" />
         </div>
-        <div className="h-4 w-20 rounded-full bg-slate-800" />
+        <div className="h-4 w-20 rounded-none bg-zinc-800" />
       </div>
 
       {/* Name */}
-      <div className="h-5 w-3/4 rounded bg-slate-800" />
+      <div className="h-5 w-3/4 rounded-none bg-zinc-800" />
 
       {/* Trade */}
-      <div className="h-4 w-1/2 rounded bg-slate-800" />
+      <div className="h-4 w-1/2 rounded-none bg-zinc-800" />
 
       {/* City, State */}
-      <div className="h-3 w-1/3 rounded bg-slate-800" />
+      <div className="h-3 w-1/3 rounded-none bg-zinc-800" />
 
       {/* Quote skeleton */}
-      <div className="flex-1 border-l-2 border-slate-800 pl-3 space-y-2">
-        <div className="h-3 w-full rounded bg-slate-800" />
-        <div className="h-3 w-5/6 rounded bg-slate-800" />
-        <div className="h-3 w-2/3 rounded bg-slate-800" />
+      <div className="flex-1 border-l-2 border-zinc-800 pl-3 space-y-2">
+        <div className="h-3 w-full rounded-none bg-zinc-800" />
+        <div className="h-3 w-5/6 rounded-none bg-zinc-800" />
+        <div className="h-3 w-2/3 rounded-none bg-zinc-800" />
       </div>
     </div>
   ))
@@ -69,7 +69,7 @@ export function SkeletonText({ lines = 3, className = '' }: SkeletonTextProps) {
         <div
           key={i}
           aria-hidden="true"
-          className={`h-4 rounded-full bg-slate-800 animate-pulse ${className}`}
+          className={`h-4 rounded-none bg-zinc-800 animate-pulse ${className}`}
           style={{ width: `${100 - i * 15}%` }}
         />
       ))}
@@ -93,7 +93,7 @@ export function SkeletonCircle({ size = 'md', className = '' }: SkeletonCirclePr
   return (
     <div
       aria-hidden="true"
-      className={`rounded-full bg-slate-800 animate-pulse ${sizeClasses[size]} ${className}`.trim()}
+      className={`rounded-none bg-zinc-800 animate-pulse ${sizeClasses[size]} ${className}`.trim()}
     />
   )
 }

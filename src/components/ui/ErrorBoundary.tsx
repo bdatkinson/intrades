@@ -51,16 +51,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               Something went wrong
             </span>
           </div>
-          <p className="text-sm text-slate-400 mb-2 max-w-md text-center font-mono">
+          <p className="text-sm text-zinc-400 mb-2 max-w-md text-center font-mono">
             {this.state.error.message}
           </p>
-          <p className="text-xs text-slate-600 mb-6 text-center">
+          <p className="text-xs text-zinc-600 mb-6 text-center">
             An unexpected error occurred. You can try again or refresh the page.
           </p>
           <button
             type="button"
             onClick={this.handleRetry}
-            className="flex items-center gap-2 px-4 py-2 rounded-md border border-slate-700 bg-slate-900 text-slate-300 font-mono text-sm hover:bg-slate-800 hover:border-slate-600 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-none border border-zinc-700 bg-zinc-900 text-zinc-300 font-mono text-sm hover:bg-zinc-800 hover:border-zinc-600 transition-colors"
             aria-label="Try again"
           >
             <RefreshCw className="h-4 w-4" />

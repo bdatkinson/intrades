@@ -72,7 +72,7 @@ export function Workbench() {
   }
 
   return (
-    <div className="bg-slate-950 text-slate-200 font-sans">
+    <div className="bg-zinc-950 text-zinc-200 font-mono">
       {/* ─── Accessibility: Skip link ─────────────────────────── */}
       <a href="#card-grid" className="skip-link">
         Skip to card grid
@@ -89,7 +89,7 @@ export function Workbench() {
         <div
           id="card-grid"
           aria-label="Card Designer Workbench"
-          className="grid grid-cols-4 gap-4 max-w-[960px] mx-auto"
+          className="grid grid-cols-4 gap-3 max-w-[960px] mx-auto"
         >
           {SUITS.map((suit: Suit) => (
             <SuitColumn key={suit} suit={suit} />
@@ -104,7 +104,7 @@ export function Workbench() {
         aria-label="Designer actions"
         className="
           fixed bottom-4 right-4 z-50
-          bg-slate-900 border border-slate-700
+          bg-zinc-900 border border-zinc-700
           flex flex-col gap-1 p-2
           notch-top-left
         "
@@ -150,7 +150,7 @@ export function Workbench() {
               data-testid="share-menu"
               className="
                 absolute bottom-full right-0 mb-1 w-48
-                bg-slate-900 border border-slate-700
+                bg-zinc-900 border border-zinc-700
                 flex flex-col gap-0
               "
               style={{
@@ -162,8 +162,8 @@ export function Workbench() {
                 onClick={handleShareRemix}
                 className="
                   text-left font-mono text-xs px-3 py-2
-                  text-slate-300 hover:bg-slate-800 cursor-pointer
-                  border-b border-slate-800
+                  text-zinc-300 hover:bg-zinc-800 cursor-pointer
+                  border-b border-zinc-800
                 "
               >
                 Share for Remix (.intc)
@@ -173,7 +173,7 @@ export function Workbench() {
                 onClick={handleSharePrompt}
                 className="
                   text-left font-mono text-xs px-3 py-2
-                  text-slate-300 hover:bg-slate-800 cursor-pointer
+                  text-zinc-300 hover:bg-zinc-800 cursor-pointer
                 "
               >
                 Share as Prompt (.md)
@@ -190,8 +190,8 @@ export function Workbench() {
           title="Export deck as .intc"
           className="
             font-mono text-xs uppercase tracking-wider px-3 py-2
-            border border-slate-700 bg-slate-800/50 text-slate-300
-            hover:bg-slate-700/50 cursor-pointer
+            border border-zinc-700 bg-zinc-800/50 text-zinc-300
+            hover:bg-zinc-700/50 cursor-pointer
           "
         >
           Export
@@ -209,7 +209,7 @@ export function Workbench() {
             ${
               undoDepth > 0
                 ? 'border-amber-600 bg-amber-950/40 text-amber-400 hover:bg-amber-900/40 cursor-pointer'
-                : 'border-slate-800 bg-slate-900 text-slate-600 cursor-not-allowed'
+                : 'border-zinc-800 bg-zinc-900 text-zinc-600 cursor-not-allowed'
             }
           `}
         >

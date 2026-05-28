@@ -67,13 +67,13 @@ export function Showcase() {
   const totalCount = cards.length
 
   return (
-    <div data-testid="showcase-container">
+    <div data-testid="showcase-container" className="bg-zinc-950">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold font-mono mb-1 text-slate-100">
+        <h1 className="font-mono uppercase tracking-widest text-zinc-100 text-xl mb-1">
           Student Preview
         </h1>
-        <p className="text-sm text-slate-400 font-mono">
+        <p className="text-sm text-zinc-400 font-mono">
           {totalCount} card{totalCount !== 1 ? 's' : ''} — as your student will see them
         </p>
       </div>
@@ -82,7 +82,7 @@ export function Showcase() {
       {wasPreview && (
         <Link
           to="/designer"
-          className="inline-flex items-center gap-2 mb-4 font-mono text-sm text-slate-400 hover:text-slate-200 transition-colors"
+          className="inline-flex items-center gap-2 mb-4 font-mono text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
           aria-label="Back to Designer"
         >
           <span aria-hidden="true">&larr;</span>
@@ -91,7 +91,7 @@ export function Showcase() {
       )}
 
       {/* Suit Filter Tabs */}
-      <div role="tablist" className="flex gap-1 mb-6 border-b border-slate-800 pb-0">
+      <div role="tablist" className="flex gap-0 mb-6 border-b border-zinc-700">
         <ShowcaseTab
           active={activeTab === 'all'}
           onClick={() => setActiveTab('all')}
@@ -114,7 +114,7 @@ export function Showcase() {
 
       {/* Card Grid */}
       {filteredCards.length === 0 ? (
-        <p className="text-slate-500 font-mono text-sm py-8 text-center">
+        <p className="text-zinc-500 font-mono text-sm py-8 text-center">
           No cards match the selected filter.
         </p>
       ) : (
@@ -150,17 +150,17 @@ function ShowcaseTab({
       role="tab"
       aria-selected={active}
       onClick={onClick}
-      className={`px-3 py-2 text-sm font-mono rounded-t-md border transition-colors flex items-center gap-1.5
+      className={`px-3 py-2 text-sm font-mono rounded-none border-b-2 transition-colors flex items-center gap-1.5
         ${
           active
-            ? 'border-slate-700 border-b-slate-950 bg-slate-900 text-slate-100'
-            : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-900/50'
+            ? 'border-amber-500 text-amber-400 -mb-[2px]'
+            : 'border-transparent text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50'
         }`}
     >
       <span className="flex items-center gap-1">{children}</span>
       <span
-        className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
-          active ? 'bg-slate-700 text-slate-300' : 'bg-slate-800 text-slate-600'
+        className={`text-[10px] px-1.5 py-0.5 rounded-none font-mono ${
+          active ? 'bg-zinc-700 text-zinc-300' : 'bg-zinc-800 text-zinc-600'
         }`}
       >
         {count}
@@ -179,18 +179,21 @@ function ShowcaseCard({ card }: { card: Card }) {
       role="listitem"
       aria-label={`${meta.label.toLowerCase()} ${card.value}: ${card.name}`}
       data-suit={card.suit}
-      className="border-2 border-slate-800 bg-slate-900 p-4 rounded-none"
+      className="border-2 border-zinc-700 bg-zinc-900 p-4 rounded-none"
+      style={{
+        clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)',
+      }}
     >
       <div className="flex items-start justify-between mb-2">
         <SuitEmblem suit={card.suit} size={20} />
-        <span className="font-mono text-xs text-slate-500 tabular-nums">
+        <span className="font-mono text-xs text-zinc-500 tabular-nums">
           {card.value}
         </span>
       </div>
-      <h2 className="font-mono font-semibold text-sm text-slate-200 mb-1">
+      <h2 className="font-mono font-semibold text-sm text-zinc-200 mb-1">
         {card.name}
       </h2>
-      <p className="text-xs text-slate-400 leading-relaxed">
+      <p className="text-xs text-zinc-400 leading-relaxed">
         {card.description}
       </p>
     </div>

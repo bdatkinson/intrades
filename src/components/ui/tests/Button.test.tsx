@@ -11,13 +11,13 @@ describe('Button', () => {
 
   it('supports different variants', () => {
     const { rerender } = render(<Button variant="primary">Primary</Button>)
-    expect(screen.getByRole('button')).toHaveClass('bg-blue-600')
+    expect(screen.getByRole('button')).toHaveClass('bg-amber-600')
 
     rerender(<Button variant="secondary">Secondary</Button>)
-    expect(screen.getByRole('button')).toHaveClass('bg-slate-800')
+    expect(screen.getByRole('button')).toHaveClass('bg-zinc-800')
 
     rerender(<Button variant="ghost">Ghost</Button>)
-    expect(screen.getByRole('button')).toHaveClass('text-slate-300')
+    expect(screen.getByRole('button')).toHaveClass('text-zinc-300')
   })
 
   it('supports different sizes', () => {

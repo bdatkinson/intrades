@@ -14,7 +14,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label ? (
           <label 
             htmlFor={id} 
-            className="text-xs font-mono font-semibold text-slate-400 uppercase tracking-wider"
+            className="text-xs font-mono font-semibold text-zinc-400 uppercase tracking-wider"
           >
             {label}
           </label>
@@ -22,7 +22,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative">
           {icon ? (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none">
               {icon}
             </div>
           ) : null}
@@ -32,11 +32,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={id}
             disabled={disabled}
             className={`
-              w-full rounded border font-mono text-sm bg-slate-950 px-3 py-2 text-slate-100 transition-colors placeholder:text-slate-600
-              focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500
-              disabled:opacity-50 disabled:bg-slate-900 disabled:pointer-events-none
+              w-full rounded-none border font-mono text-sm bg-zinc-900 px-3 py-2 text-zinc-100 transition-colors placeholder:text-zinc-600
+              focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500
+              disabled:opacity-50 disabled:bg-zinc-900 disabled:pointer-events-none
               ${icon ? 'pl-9' : ''}
-              ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-800 focus:border-blue-500'}
+              ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-amber-500'}
               ${className}
             `}
             {...props}
@@ -46,7 +46,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {error ? (
           <p className="text-xs font-mono text-red-500">{error}</p>
         ) : helperText ? (
-          <p className="text-xs font-mono text-slate-500">{helperText}</p>
+          <p className="text-xs font-mono text-zinc-500">{helperText}</p>
         ) : null}
       </div>
     )

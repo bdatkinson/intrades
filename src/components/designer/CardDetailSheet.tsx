@@ -90,23 +90,23 @@ function ConfirmModal({
         onClick={onCancel}
       />
       {/* Modal */}
-      <div className="relative bg-slate-900 border-2 border-amber-700 p-6 max-w-sm w-full mx-4 font-mono text-sm">
+      <div className="relative bg-zinc-900 border-2 border-amber-700 p-6 max-w-sm w-full mx-4 font-mono text-sm rounded-none">
         <h3 className="text-amber-400 text-xs uppercase tracking-wider mb-3">
           {title}
         </h3>
-        <p className="text-slate-300 mb-6">{message}</p>
+        <p className="text-zinc-300 mb-6">{message}</p>
         <div className="flex gap-3 justify-end">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-1.5 border border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-500 text-xs uppercase tracking-wider"
+            className="px-4 py-1.5 border border-zinc-700 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 text-xs uppercase tracking-wider rounded-none"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="px-4 py-1.5 border border-amber-600 bg-amber-950/40 text-amber-400 hover:bg-amber-900/40 text-xs uppercase tracking-wider"
+            className="px-4 py-1.5 border border-amber-600 bg-amber-950/40 text-amber-400 hover:bg-amber-900/40 text-xs uppercase tracking-wider rounded-none"
           >
             Confirm
           </button>
@@ -133,7 +133,7 @@ function TabBar({
   onChange: (t: Tab) => void
 }) {
   return (
-    <div className="flex border-b-2 border-slate-800" role="tablist">
+    <div className="flex border-b-2 border-zinc-800" role="tablist">
       {TABS.map(({ key, label }) => (
         <button
           key={key}
@@ -142,11 +142,11 @@ function TabBar({
           onClick={() => onChange(key)}
           className={`
             flex-1 py-2 font-mono text-xs uppercase tracking-wider text-center
-            border-b-2 -mb-0.5 transition-none
+            border-b-2 -mb-0.5 transition-none rounded-none
             ${
               active === key
                 ? 'border-amber-500 text-amber-400'
-                : 'border-transparent text-slate-500 hover:text-slate-300'
+                : 'border-transparent text-zinc-500 hover:text-zinc-300'
             }
           `}
         >
@@ -163,24 +163,24 @@ function ScenarioPanel({ card }: { card: Card }) {
   return (
     <div className="space-y-4 p-4">
       <div>
-        <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
+        <h4 className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-1">
           Part Number
         </h4>
-        <p className="font-mono text-sm text-slate-200">
+        <p className="font-mono text-sm text-zinc-200">
           {card.suit}-{String(card.value).padStart(2, '0')}
         </p>
       </div>
       <div>
-        <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
+        <h4 className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-1">
           Name
         </h4>
-        <p className="font-mono text-sm text-slate-200">{card.name}</p>
+        <p className="font-mono text-sm text-zinc-200">{card.name}</p>
       </div>
       <div>
-        <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
+        <h4 className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-1">
           Description
         </h4>
-        <p className="text-sm text-slate-300 leading-relaxed">{card.description}</p>
+        <p className="text-sm text-zinc-300 leading-relaxed">{card.description}</p>
       </div>
     </div>
   )
@@ -190,7 +190,7 @@ function LocalizePanel({ card }: { card: Card }) {
   const hasSwappables = card.swappable && card.swappable.length > 0;
   return (
     <div className="p-4">
-      <p className="text-sm text-slate-500 italic">
+      <p className="text-sm text-zinc-500 italic">
         {hasSwappables ? `${card.swappable?.length} swappable variables available.` : "No swappable variables defined. Use the Workbench Localize Mode to flag fields for translation."}
       </p>
     </div>
@@ -203,18 +203,18 @@ function LinkedPanel({ card }: { card: Card }) {
   return (
     <div className="p-4 space-y-3">
       <div>
-        <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
+        <h4 className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-1">
           Runs
         </h4>
-        <p className="text-sm text-slate-500 italic">
+        <p className="text-sm text-zinc-500 italic">
           {hasRuns ? `Linked to run: ${card.runId}` : "No runs linked to this card."}
         </p>
       </div>
       <div>
-        <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
+        <h4 className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-1">
           Crosscuts
         </h4>
-        <p className="text-sm text-slate-500 italic">
+        <p className="text-sm text-zinc-500 italic">
           {hasCrosscuts ? `Linked to crosscuts: ${card.crosscutIds?.join(', ')}` : "No crosscuts linked to this card."}
         </p>
       </div>
@@ -226,22 +226,22 @@ function LineagePanel({ card }: { card: Card }) {
   return (
     <div className="p-4 space-y-3">
       <div>
-        <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
+        <h4 className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-1">
           ID
         </h4>
-        <p className="font-mono text-xs text-slate-400">{card.id}</p>
+        <p className="font-mono text-xs text-zinc-400">{card.id}</p>
       </div>
       <div>
-        <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
+        <h4 className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-1">
           Suit
         </h4>
-        <p className="font-mono text-xs text-slate-400">{card.suit}</p>
+        <p className="font-mono text-xs text-zinc-400">{card.suit}</p>
       </div>
       <div>
-        <h4 className="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">
+        <h4 className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-1">
           Value
         </h4>
-        <p className="font-mono text-xs text-slate-400">{card.value}</p>
+        <p className="font-mono text-xs text-zinc-400">{card.value}</p>
       </div>
     </div>
   )
@@ -296,32 +296,32 @@ function SheetFooter({ card }: { card: Card }) {
 
   return (
     <>
-      <div className="border-t-2 border-slate-800 p-3 space-y-2">
+      <div className="border-t-2 border-zinc-800 p-3 space-y-2">
         <button
           type="button"
           onClick={handleShareIntc}
-          className="w-full py-2 font-mono text-xs text-left px-3 border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-slate-100 transition-none"
+          className="w-full py-2 font-mono text-xs text-left px-3 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100 transition-none rounded-none"
         >
           Share for Remix (.intc)
         </button>
         <button
           type="button"
           onClick={handleShareMd}
-          className="w-full py-2 font-mono text-xs text-left px-3 border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-slate-100 transition-none"
+          className="w-full py-2 font-mono text-xs text-left px-3 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100 transition-none rounded-none"
         >
           Share as Prompt (.md)
         </button>
         <button
           type="button"
           onClick={handleDuplicate}
-          className="w-full py-2 font-mono text-xs text-left px-3 border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-slate-100 transition-none"
+          className="w-full py-2 font-mono text-xs text-left px-3 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100 transition-none rounded-none"
         >
           Duplicate
         </button>
         <button
           type="button"
           onClick={() => setShowResetConfirm(true)}
-          className="w-full py-2 font-mono text-xs text-left px-3 border border-red-900/60 text-red-400 hover:bg-red-950/30 hover:text-red-300 transition-none"
+          className="w-full py-2 font-mono text-xs text-left px-3 border border-red-900/60 text-red-400 hover:bg-red-950/30 hover:text-red-300 transition-none rounded-none"
         >
           Reset to Default
         </button>
@@ -356,19 +356,20 @@ export function CardDetailSheet({ card, onClose }: CardDetailSheetProps) {
           className={`
             fixed right-0 top-0 bottom-0 z-50
             w-full max-w-[480px]
-            bg-slate-950 border-l-2 border-slate-800
+            bg-zinc-950 border-l-2 border-zinc-700
             flex flex-col
-            font-sans
+            font-mono
             outline-none
+            rounded-none
           `}
         >
           {/* Header with close button + suit/value badge */}
-          <div className="flex items-center justify-between px-4 py-3 border-b-2 border-slate-800 shrink-0">
+          <div className="flex items-center justify-between px-4 py-3 border-b-2 border-zinc-800 shrink-0">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs text-slate-500 tabular-nums">
+              <span className="font-mono text-xs text-zinc-500 tabular-nums">
                 {card.suit}-{String(card.value).padStart(2, '0')}
               </span>
-              <span className="font-mono text-xs uppercase tracking-wider text-slate-400">
+              <span className="font-mono text-xs uppercase tracking-wider text-zinc-400">
                 {card.suit}
               </span>
             </div>
@@ -376,7 +377,7 @@ export function CardDetailSheet({ card, onClose }: CardDetailSheetProps) {
               <button
                 type="button"
                 aria-label="Close"
-                className="p-1 text-slate-500 hover:text-slate-300 transition-none"
+                className="p-1 text-zinc-500 hover:text-zinc-300 transition-none"
               >
                 <X size={18} />
               </button>
