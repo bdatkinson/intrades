@@ -1,6 +1,7 @@
-import { Layers, Wrench } from 'lucide-react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Layers, Wrench, LogOut } from 'lucide-react';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from './ui/ErrorBoundary';
+import { useAuth } from '../features/auth/AuthProvider';
 
 const NAV_ITEMS = [
   { to: '/designer', label: 'Card Designer', icon: Wrench },
@@ -8,6 +9,14 @@ const NAV_ITEMS = [
 ] as const;
 
 export default function Layout() {
+  const { signOut, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 font-mono">
       <header className="border-b border-zinc-800 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between font-mono">
@@ -33,6 +42,17 @@ export default function Layout() {
               {item.label}
             </NavLink>
           ))}
+          {user && (
+            <button
+              onClick={handleLogout}
+              title="Sign out"
+              aria-label="Sign out"
+              className="flex items-center gap-2 px-3 py-2 rounded-none border border-zinc-700 text-zinc-500 hover:text-red-400 hover:border-red-800 text-sm font-mono transition-colors ml-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Sign Out</span>
+            </button>
+          )}
         </nav>
       </header>
 
