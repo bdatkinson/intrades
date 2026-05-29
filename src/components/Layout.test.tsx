@@ -1,7 +1,17 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Layout from './Layout';
+
+vi.mock('../features/auth/AuthProvider', () => ({
+  useAuth: () => ({
+    signOut: vi.fn(),
+    user: null,
+    loading: false,
+    error: null,
+  }),
+}));
+
+const { default: Layout } = await import('./Layout');
 
 function renderLayout(initialRoute = '/designer') {
   return render(
@@ -40,7 +50,7 @@ describe('Layout', () => {
     renderLayout();
     const header = screen.getByRole('banner');
     const navLinks = header.querySelectorAll('a');
-    expect(navLinks.length).toBe(2);
+    expect(navLinks.length).toBe(2); // Card Designer + The Deck (Sign Out hidden when no user)
     // Nav links should be visible (no hidden/lg:hidden classes)
     const nav = screen.getByRole('navigation', { name: /main navigation/i });
     expect(nav.className).not.toContain('hidden');

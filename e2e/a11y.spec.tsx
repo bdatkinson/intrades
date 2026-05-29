@@ -25,7 +25,7 @@ function withRouter(ui: React.ReactElement) {
 function makeCard(overrides: Partial<Card> = {}): Card {
   return {
     id: 'test-hammer-01',
-    suit: 'hammer',
+    suit: 'spades',
     value: 1,
     name: 'Test Card',
     description: 'A test scenario for accessibility testing',
@@ -194,7 +194,7 @@ describe('Workbench keyboard navigation', () => {
     )
 
     const firstSlot = buttons.find(
-      (b) => b.getAttribute('aria-label')?.startsWith('hammer 1'),
+      (b) => b.getAttribute('aria-label')?.startsWith('spades 1'),
     )
     expect(firstSlot).toBeDefined()
     if (firstSlot) {
@@ -274,7 +274,7 @@ describe('ARIA label coverage', () => {
     const cards = screen.getAllByRole('listitem')
     expect(cards.length).toBeGreaterThan(0)
 
-    const ariaLabelPattern = /^hammers|wrenches|voltmeters|plumb-bobs \d+: /
+    const ariaLabelPattern = /^(spades|hearts|diamonds|clubs) \d+: /
     for (const card of cards) {
       const label = card.getAttribute('aria-label')
       expect(label).toBeTruthy()

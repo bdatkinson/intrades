@@ -55,8 +55,8 @@ describe('Showcase', () => {
     expect(tabNames.some((t) => t.toLowerCase().includes('all'))).toBeTruthy()
     expect(tabNames.some((t) => t.toLowerCase().includes('spades'))).toBeTruthy()
     expect(tabNames.some((t) => t.toLowerCase().includes('clubs'))).toBeTruthy()
-    expect(tabNames.some((t) => t.toLowerCase().includes('volt'))).toBeTruthy()
-    expect(tabNames.some((t) => t.toLowerCase().includes('plumb'))).toBeTruthy()
+    expect(tabNames.some((t) => t.toLowerCase().includes('diamonds'))).toBeTruthy()
+    expect(tabNames.some((t) => t.toLowerCase().includes('hearts'))).toBeTruthy()
   })
 
   it('shows all cards when All tab is selected (default)', () => {
@@ -68,13 +68,13 @@ describe('Showcase', () => {
     expect(cardElements).toHaveLength(cards.length)
   })
 
-  it('filters to hammer cards when hammers tab is selected', async () => {
+  it('filters to spades cards when spades tab is selected', async () => {
     const user = userEvent.setup()
     sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(buildCards()))
     renderShowcase()
 
-    const hammerTab = screen.getByRole('tab', { name: /hammer/i })
-    await user.click(hammerTab)
+    const spadesTab = screen.getByRole('tab', { name: /spades/i })
+    await user.click(spadesTab)
 
     const cardElements = screen.getAllByRole('listitem')
     expect(cardElements).toHaveLength(2) // h1 + h5
@@ -83,13 +83,13 @@ describe('Showcase', () => {
     }
   })
 
-  it('filters to wrench cards when wrenches tab is selected', async () => {
+  it('filters to clubs cards when clubs tab is selected', async () => {
     const user = userEvent.setup()
     sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(buildCards()))
     renderShowcase()
 
-    const wrenchTab = screen.getByRole('tab', { name: /wrench/i })
-    await user.click(wrenchTab)
+    const clubsTab = screen.getByRole('tab', { name: /clubs/i })
+    await user.click(clubsTab)
 
     const cardElements = screen.getAllByRole('listitem')
     expect(cardElements).toHaveLength(2) // w2 + w6
@@ -123,11 +123,11 @@ describe('Showcase', () => {
     const allTab = screen.getByRole('tab', { name: /all/i })
     expect(allTab.textContent).toContain('6')
 
-    // Each suit tab shows its count: 2 hammers, 2 wrenches, 1 voltmeter, 1 plumb-bob
-    expect(screen.getByRole('tab', { name: /hammer/i }).textContent).toContain('2')
-    expect(screen.getByRole('tab', { name: /wrench/i }).textContent).toContain('2')
-    expect(screen.getByRole('tab', { name: /volt/i }).textContent).toContain('1')
-    expect(screen.getByRole('tab', { name: /plumb/i }).textContent).toContain('1')
+    // Each suit tab shows its count: 2 spades, 2 clubs, 1 diamonds, 1 hearts
+    expect(screen.getByRole('tab', { name: /spades/i }).textContent).toContain('2')
+    expect(screen.getByRole('tab', { name: /clubs/i }).textContent).toContain('2')
+    expect(screen.getByRole('tab', { name: /diamonds/i }).textContent).toContain('1')
+    expect(screen.getByRole('tab', { name: /hearts/i }).textContent).toContain('1')
   })
 
   it('updates aria-selected when switching tabs', async () => {
@@ -138,9 +138,9 @@ describe('Showcase', () => {
     const allTab = screen.getByRole('tab', { name: /all/i })
     expect(allTab.getAttribute('aria-selected')).toBe('true')
 
-    const hammerTab = screen.getByRole('tab', { name: /hammer/i })
-    await user.click(hammerTab)
-    expect(hammerTab.getAttribute('aria-selected')).toBe('true')
+    const spadesTab = screen.getByRole('tab', { name: /spades/i })
+    await user.click(spadesTab)
+    expect(spadesTab.getAttribute('aria-selected')).toBe('true')
     expect(allTab.getAttribute('aria-selected')).toBe('false')
   })
 
@@ -191,9 +191,9 @@ describe('Showcase', () => {
     sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(wrenchOnly))
     renderShowcase()
 
-    // Click hammer tab — should show no cards
-    const hammerTab = screen.getByRole('tab', { name: /hammer/i })
-    await user.click(hammerTab)
+    // Click spades tab — should show no cards
+    const spadesTab = screen.getByRole('tab', { name: /spades/i })
+    await user.click(spadesTab)
 
     expect(screen.getByText(/no cards/i)).toBeInTheDocument()
   })

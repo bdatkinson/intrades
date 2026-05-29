@@ -23,21 +23,21 @@ describe('computeCascade', () => {
     const result = computeCascade(cards, 'clubs', 7, 3)
 
     // Dragged card 7 should now be at value 3
-    expect(result.find(c => c.id === 'wrench-7')?.value).toBe(3)
+    expect(result.find(c => c.id === 'clubs-7')?.value).toBe(3)
     // Card 3 shifted to 4
-    expect(result.find(c => c.id === 'wrench-3')?.value).toBe(4)
+    expect(result.find(c => c.id === 'clubs-3')?.value).toBe(4)
     // Card 4 shifted to 5
-    expect(result.find(c => c.id === 'wrench-4')?.value).toBe(5)
+    expect(result.find(c => c.id === 'clubs-4')?.value).toBe(5)
     // Card 5 shifted to 6
-    expect(result.find(c => c.id === 'wrench-5')?.value).toBe(6)
+    expect(result.find(c => c.id === 'clubs-5')?.value).toBe(6)
     // Card 6 shifted to 7
-    expect(result.find(c => c.id === 'wrench-6')?.value).toBe(7)
+    expect(result.find(c => c.id === 'clubs-6')?.value).toBe(7)
 
     // Cards outside the range are untouched
-    expect(result.find(c => c.id === 'wrench-1')?.value).toBe(1)
-    expect(result.find(c => c.id === 'wrench-2')?.value).toBe(2)
-    expect(result.find(c => c.id === 'wrench-8')?.value).toBe(8)
-    expect(result.find(c => c.id === 'wrench-9')?.value).toBe(9)
+    expect(result.find(c => c.id === 'clubs-1')?.value).toBe(1)
+    expect(result.find(c => c.id === 'clubs-2')?.value).toBe(2)
+    expect(result.find(c => c.id === 'clubs-8')?.value).toBe(8)
+    expect(result.find(c => c.id === 'clubs-9')?.value).toBe(9)
   })
 
   it('cascades upward: dragging 2→5 shifts 3→2, 4→3, 5→4', () => {
@@ -48,17 +48,17 @@ describe('computeCascade', () => {
     const result = computeCascade(cards, 'clubs', 2, 5)
 
     // Dragged card 2 should now be at value 5
-    expect(result.find(c => c.id === 'wrench-2')?.value).toBe(5)
+    expect(result.find(c => c.id === 'clubs-2')?.value).toBe(5)
     // Card 3 shifted to 2
-    expect(result.find(c => c.id === 'wrench-3')?.value).toBe(2)
+    expect(result.find(c => c.id === 'clubs-3')?.value).toBe(2)
     // Card 4 shifted to 3
-    expect(result.find(c => c.id === 'wrench-4')?.value).toBe(3)
+    expect(result.find(c => c.id === 'clubs-4')?.value).toBe(3)
     // Card 5 shifted to 4
-    expect(result.find(c => c.id === 'wrench-5')?.value).toBe(4)
+    expect(result.find(c => c.id === 'clubs-5')?.value).toBe(4)
 
     // Outside range untouched
-    expect(result.find(c => c.id === 'wrench-1')?.value).toBe(1)
-    expect(result.find(c => c.id === 'wrench-6')?.value).toBe(6)
+    expect(result.find(c => c.id === 'clubs-1')?.value).toBe(1)
+    expect(result.find(c => c.id === 'clubs-6')?.value).toBe(6)
   })
 
   it('returns the same array (identity) when fromValue == toValue', () => {
@@ -84,10 +84,10 @@ describe('computeCascade', () => {
     ]
     const result = computeCascade(cards, 'clubs', 3, 1)
 
-    // Hammer cards untouched
-    expect(result.find(c => c.id === 'hammer-1')?.value).toBe(1)
-    expect(result.find(c => c.id === 'hammer-2')?.value).toBe(2)
-    expect(result.find(c => c.id === 'hammer-3')?.value).toBe(3)
+    // Spades cards untouched
+    expect(result.find(c => c.id === 'spades-1')?.value).toBe(1)
+    expect(result.find(c => c.id === 'spades-2')?.value).toBe(2)
+    expect(result.find(c => c.id === 'spades-3')?.value).toBe(3)
   })
 
   it('preserves card identity (same objects, same IDs, same suits)', () => {
@@ -121,8 +121,8 @@ describe('computeCascade', () => {
     const result = computeCascade(cards, 'hearts', 9, 1)
 
     // 9 moves to 1, 1 moves to 5, 5 moves to 9
-    expect(result.find(c => c.id === 'plumb-bob-9')?.value).toBe(1)
-    expect(result.find(c => c.id === 'plumb-bob-1')?.value).toBe(5)
-    expect(result.find(c => c.id === 'plumb-bob-5')?.value).toBe(9)
+    expect(result.find(c => c.id === 'hearts-9')?.value).toBe(1)
+    expect(result.find(c => c.id === 'hearts-1')?.value).toBe(5)
+    expect(result.find(c => c.id === 'hearts-5')?.value).toBe(9)
   })
 })

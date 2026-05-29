@@ -1,6 +1,16 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import App from '../src/App'
+
+vi.mock('../src/features/auth/AuthProvider', () => ({
+  useAuth: () => ({
+    signOut: vi.fn(),
+    user: null,
+    loading: false,
+    error: null,
+  }),
+}))
+
+const { default: App } = await import('../src/App')
 
 describe('Integration Tests - App Navigation', () => {
  it('should render the app without crashing', () => {
@@ -13,6 +23,6 @@ describe('Integration Tests - App Navigation', () => {
  })
 
  it('should handle unknown routes gracefully', () => {
- // TODO: implement unknown route handling test
+ // TODO: implement unknown route tests
  })
 })

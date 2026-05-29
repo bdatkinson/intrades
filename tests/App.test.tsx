@@ -1,6 +1,16 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render } from '@testing-library/react'
-import App from '../src/App'
+
+vi.mock('../src/features/auth/AuthProvider', () => ({
+  useAuth: () => ({
+    signOut: vi.fn(),
+    user: null,
+    loading: false,
+    error: null,
+  }),
+}))
+
+const { default: App } = await import('../src/App')
 
 describe('App Component', () => {
  it('should render without crashing', () => {
