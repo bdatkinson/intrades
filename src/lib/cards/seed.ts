@@ -1,120 +1,101 @@
 import type { Card, Suit } from './types'
+import { getMentorByCard } from '../mentors/personas'
 
 /**
- * Seed cards — scenario cards for values 1-10 per suit (11/12/13 reserved for mentor face cards).
+ * 52 seed cards — 13 per suit.
  *
- * Suit themes:
- *   spades   — Structural / Heavy Work / Building
- *   hearts   — Service / Relationships / Care
- *   diamonds — Business / Tech / Efficiency
- *   clubs    — Hustle / Contracting / Resilience
+ * Suits:
+ *  spades   (Structural / Heavy Work)
+ *  hearts   (Precision / Service / Relationships)
+ *  diamonds (Business / Tech / Efficiency)
+ *  clubs    (Hustle / Contracting / Resilience)
+ *
+ * Values 1-10: tool/skill cards
+ * Values 11-13: face cards (Jack, Queen, King) — wired to mentor personas
  */
 export function createSeedCards(): Card[] {
   const suits: Suit[] = ['spades', 'hearts', 'diamonds', 'clubs']
   const cards: Card[] = []
 
-  const names: Record<Suit, string[]> = {
+  const toolNames: Record<Suit, string[]> = {
     spades: [
-      'Reading Blueprints',
-      'Material Estimation',
-      'Structural Load Math',
-      'Site Safety Protocol',
-      'Concrete Mix & Pour',
-      'Steel Fab Tolerances',
-      'Scaffold Setup',
-      'Excavation & Grade',
-      'Welding Certification',
-      'Heavy Equipment Pre-Op',
+      'Framing Hammer', 'Chalk Line', 'Speed Square',
+      'Circular Saw', 'Ball-Peen Hammer', 'Scaffolding',
+      'Spirit Level', 'Sledge Hammer', 'Transit Level',
+      'Rebar Bender',
     ],
     hearts: [
-      'Customer First Call',
-      'Service Call Etiquette',
-      'Listening to the Problem',
-      'Managing Expectations',
-      'Following Up After the Job',
-      'Handling a Callback',
-      'Estimating on the Spot',
-      'Building Repeat Business',
-      'Earning the Referral',
-      'Conflict De-escalation',
+      'Brass Plumb Bob', 'Basin Wrench', 'Copper Cutter',
+      'Soldering Torch', 'Laser Level', 'Putty Knife',
+      'Trowel', 'Chalk Line', 'Moisture Meter',
+      'Fish Tape',
     ],
     diamonds: [
-      'Job Costing Basics',
-      'Writing a Clean Estimate',
-      'Calculating Margin',
-      'Invoice & Collections',
-      'Reading a P&L',
-      'Tax & Entity Basics',
-      'Change Order Management',
-      'Cash Flow Planning',
-      'Insurance & Liability',
-      'Scaling to First Employee',
+      'Digital Multimeter', 'Wire Strippers', 'Conduit Bender',
+      'Clamp Meter', 'Cable Tester', 'Thermal Camera',
+      'Panel Schedule', 'Voltage Tester', 'Megohmmeter',
+      'PLC Programmer',
     ],
     clubs: [
-      'Morning Truck Setup',
-      'Tool Accountability',
-      'Jobsite Communication',
-      'Subcontractor Coordination',
-      'Punch List Close-Out',
-      'Working in Bad Weather',
-      'Staying on Schedule',
-      'Handling a Bad Inspection',
-      'Recovering a Blown Budget',
-      'Winning the Next Bid',
+      'Tape Measure', 'Utility Knife', 'Nail Gun',
+      'Sawzall', 'Adjustable Wrench', 'Caulk Gun',
+      'Roofing Hatchet', 'Torque Wrench', 'Pipe Wrench',
+      'Compactor',
     ],
   }
 
-  const descriptions: Record<Suit, string[]> = {
+  const toolDescriptions: Record<Suit, string[]> = {
     spades: [
-      'Understand plan views, sections, and details before you touch a tool.',
-      'Count it twice, order once. Waste is margin you never had.',
-      'Dead loads, live loads, and why the numbers matter before concrete sets.',
-      'OSHA isn\'t paperwork — it\'s the protocol that gets everyone home.',
-      'Slump test, water-cement ratio, and the window you cannot miss.',
-      'Plus/minus 1/32nd inch isn\'t a suggestion. It\'s the spec.',
-      'Erect it right or it fails under load. Scaffold is life safety.',
-      'Grade controls water. Water controls everything else on a job.',
-      'The certification is the baseline. The bead is your reputation.',
-      'Walk around. Check the hydraulics. Sign the sheet. No shortcuts.',
+      'Drive nails, pull lumber — the framing hammer is the backbone of rough carpentry.',
+      'Snap a straight line across 100 feet. Dust it blue, stretch it tight.',
+      'Mark rafters, check square, scribe angles — fits in your pouch.',
+      'Rip plywood, crosscut studs. The circular saw does the heavy cutting.',
+      'Rounded peen for shaping metal and setting rivets without marring.',
+      'Work at height safely. Scaffold systems make vertical access possible.',
+      'Gravity never lies. Check level, check plumb, check your work.',
+      'Heavy head, long handle. For demolition and driving stakes.',
+      'Set elevations, shoot grades. The transit keeps the site on level.',
+      'Shape and bend reinforcing steel for concrete structures.',
     ],
     hearts: [
-      'The first call sets the tone for the whole job. Own it.',
-      'You are in their home. Act like it.',
-      'Let them finish talking. The problem they describe and the problem they have are different.',
-      'Under-promise, over-deliver. Every time.',
-      'One text the day after close-out earns the next job.',
-      'They called back. Own it, fix it, say nothing about their dog.',
-      'Know your numbers well enough to quote from the driveway.',
-      'Loyalty is built between jobs, not during them.',
-      'The referral is the highest compliment. Ask for it.',
-      'Lower your voice when they raise theirs. Always.',
+      'Gravity never lies. Brass bob on braided line finds true vertical.',
+      'Reach behind a sink to tighten supply nuts nobody else can reach.',
+      'Clean cuts on copper pipe. No burrs, no leaks, every time.',
+      'Sweat a joint right and it lasts a lifetime. Silver solder, clean flux.',
+      'Self-leveling crosshair. Red beam, green beam, square every room.',
+      'Smooth filler, feather edges. Restoration starts with patience.',
+      'Spread mortar, shape plaster. The trowel is an extension of your hand.',
+      'Mark reference lines for tile, trim, and layout work.',
+      'Know what you can\'t see. Moisture behind walls tells the real story.',
+      'Pull wire through walls and conduit. Finesse, not force.',
     ],
     diamonds: [
-      'Labor + material + overhead + profit = a real number. Not a guess.',
-      'A clean estimate is a professional document. Sloppy bids lose.',
-      'Gross margin vs. net margin. Know both before you bid.',
-      'Net 30 is not a suggestion. Know when to stop work.',
-      'If you can\'t read a P&L you are flying blind.',
-      'LLC protects your house. Know when to file.',
-      'Every change order is signed before the work starts. Period.',
-      'Cash flow kills more businesses than bad work does.',
-      'One lawsuit can end a company. Insurance is not optional.',
-      'Your first hire is the hardest decision and the most important.',
+      'Measure voltage, current, resistance. The diagnostic workhorse.',
+      'Strip insulation cleanly without nicking the conductor.',
+      'Bend EMT to spec — offsets, kicks, saddles. Geometry in steel.',
+      'Clamp around a conductor, read amps without breaking the circuit.',
+      'Verify data cable runs. Continuity, mapping, certification.',
+      'See heat signatures. Find overloaded circuits before they find you.',
+      'Document every breaker, every circuit. The panel schedule is the map.',
+      'Quick-contact tester — is it live or dead? Answer in seconds.',
+      'Test insulation resistance. Megohms tell you if the wire is safe.',
+      'Program ladder logic. Automate sequences. Control the process.',
     ],
     clubs: [
-      'Tools organized, van stocked, gas in the tank. The night before.',
-      'Every tool that leaves the van gets logged. Every one.',
-      'Say what you\'ll do, do what you said, tell them you did it.',
-      'Your sub\'s problem on your job is your problem. Act like it.',
-      'Walk it with the customer, sign it off, collect.',
-      'Weather doesn\'t care about your schedule. Have a plan.',
-      'Schedule slips happen. Communication about it is non-negotiable.',
-      'A bad inspection is feedback. Fix it fast and don\'t argue.',
-      'A blown budget is a lesson. Write down what happened.',
-      'The bid you win at the right number beats the bid you win to keep busy.',
+      'Measure twice, cut once. The most-used tool in any trade.',
+      'Score, snap, trim. The utility knife handles a thousand tasks.',
+      'Drive nails fast. Framing, sheathing, decking — speed wins.',
+      'Reciprocating saw cuts through anything. Demo\'s best friend.',
+      'One tool, infinite sizes. The crescent wrench lives in every truck.',
+      'Seal gaps, joints, and trim. Clean lines make clean work.',
+      'Nail shingles, cut felt, pry caps. The roofer\'s multi-tool.',
+      'Calibrated click. Torque head bolts to spec — no guesswork.',
+      'Serrated jaw grip. Turn pipe, not strip it. Every plumber carries one.',
+      'Compact soil, prep base. Solid ground under every hardscape.',
     ],
   }
 
+  // Tool cards: values 1-10
   for (const suit of suits) {
     for (let i = 0; i < 10; i++) {
       const value = i + 1
@@ -122,9 +103,27 @@ export function createSeedCards(): Card[] {
         id: `seed-${suit}-${value}`,
         suit,
         value,
-        name: names[suit][i],
-        description: descriptions[suit][i],
+        name: toolNames[suit][i],
+        description: toolDescriptions[suit][i],
       })
+    }
+  }
+
+  // Face cards: values 11-13, wired to mentor personas
+  const faceValues = [11, 12, 13] as const
+  for (const suit of suits) {
+    for (const value of faceValues) {
+      const mentor = getMentorByCard(suit, value)
+      if (mentor) {
+        cards.push({
+          id: `seed-${suit}-${value}`,
+          suit,
+          value,
+          name: mentor.name,
+          description: mentor.trade,
+          mentorId: mentor.id,
+        })
+      }
     }
   }
 
