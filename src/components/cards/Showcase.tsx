@@ -4,10 +4,19 @@ import type { Card, Suit } from '../../lib/cards/types'
 import { SUITS, SUIT_META } from '../../lib/cards/types'
 import { createSeedCards } from '../../lib/cards/seed'
 import { SuitEmblem } from './SuitEmblems'
+import { getMentorByCard } from '../../lib/mentors/personas'
 
 const PREVIEW_KEY = 'intrades-preview-cards'
 
 type TabFilter = 'all' | Suit
+
+// ─── Suit-to-border-color mapping for face cards ─────────────────
+const SUIT_BORDER: Record<Suit, string> = {
+  spades: 'border-slate-400',
+  hearts: 'border-red-400',
+  diamonds: 'border-amber-400',
+  clubs: 'border-emerald-400',
+}
 
 /**
  * Showcase — student-facing preview of designer cards.
@@ -173,6 +182,48 @@ function ShowcaseTab({
 
 function ShowcaseCard({ card }: { card: Card }) {
   const meta = SUIT_META[card.suit]
+  const mentor = card.value >= 11 ? getMentorByCard(card.suit, card.value) : undefined
+
+  if (mentor) {
+    const borderColor = SUIT_BORDER[card.suit]
+    return (
+      <div
+        role="listitem"
+        aria-label={`${meta.label.toLowerCase()} ${card.value}: ${mentor.name}`}
+        data-suit={card.suit}
+        className={`border-l-2 border-y-2 border-r-2 ${borderColor} bg-zinc-900 rounded-none overflow-hidden`}
+        style={{
+          clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)',
+          minHeight: '280px',
+        }}
+      >
+        {/* Portrait — top ~60% */}
+        <div className="h-[168px] bg-zinc-800 overflow-hidden">
+          <img
+            src={mentor.imagePath}
+            alt={mentor.name}
+            className="w-full h-full object-cover object-top"
+          />
+        </div>
+
+        {/* Bio section */}
+        <div className="bg-zinc-900 p-3 flex flex-col gap-1">
+          <span className="font-mono font-semibold text-sm text-zinc-100">
+            {mentor.name}
+          </span>
+          <span className="text-xs text-zinc-400 font-mono">
+            {mentor.city}
+          </span>
+          <span className="text-xs text-zinc-500 font-mono truncate">
+            {mentor.trade}
+          </span>
+          <p className="text-xs text-zinc-400 italic leading-relaxed line-clamp-2">
+            {mentor.whyQuote}
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
