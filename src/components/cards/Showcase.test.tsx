@@ -98,7 +98,7 @@ describe('Showcase', () => {
     }
   })
 
-  it('shows "← Back to Designer" link when in preview mode', () => {
+  it('shows "\u2190 Back to Designer" link when in preview mode', () => {
     sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(buildCards()))
     renderShowcase()
 
@@ -259,6 +259,14 @@ describe('Showcase — Mentor Face Cards', () => {
     expect(screen.getByText('David Chang')).toBeInTheDocument()
   })
 
+  it('renders mentor city on face cards', () => {
+    renderShowcaseWithFaceCards()
+
+    expect(screen.getByText('Detroit, MI')).toBeInTheDocument()
+    expect(screen.getByText('Charleston, SC')).toBeInTheDocument()
+    expect(screen.getByText('San Francisco, CA')).toBeInTheDocument()
+  })
+
   it('renders mentor trade on face cards', () => {
     renderShowcaseWithFaceCards()
 
@@ -266,6 +274,62 @@ describe('Showcase — Mentor Face Cards', () => {
     expect(screen.getByText(/Heavy Equipment Operator/)).toBeInTheDocument()
     expect(screen.getByText(/Historic Restoration/)).toBeInTheDocument()
     expect(screen.getByText(/Industrial Automation/)).toBeInTheDocument()
+  })
+
+  it('renders mentor why quote on face cards', () => {
+    renderShowcaseWithFaceCards()
+
+    // whyQuote excerpts from MENTOR_PERSONAS
+    expect(screen.getByText(/The power\. Controlling a machine that can move the earth/)).toBeInTheDocument()
+    expect(screen.getByText(/I love the history in the walls/)).toBeInTheDocument()
+    expect(screen.getByText(/The trades are the final frontier for technology/)).toBeInTheDocument()
+  })
+
+  it('renders portrait image on face cards', () => {
+    renderShowcaseWithFaceCards()
+
+    const images = screen.getAllByRole('img')
+    expect(images.length).toBeGreaterThanOrEqual(3)
+
+    // Check that images have src attributes pointing to card images
+    const srcs = images.map((img) => img.getAttribute('src'))
+    expect(srcs.some((s) => s?.includes('j-spades'))).toBeTruthy()
+    expect(srcs.some((s) => s?.includes('q-hearts'))).toBeTruthy()
+    expect(srcs.some((s) => s?.includes('k-diamonds'))).toBeTruthy()
+  })
+
+  it('applies suit accent left border color on face cards', () => {
+    renderShowcaseWithFaceCards()
+
+    const cardElements = screen.getAllByRole('listitem')
+    expect(cardElements).toHaveLength(3)
+
+    // Spades → border-slate-400
+    const spadesCard = cardElements.find((el) => el.getAttribute('data-suit') === 'spades')
+    expect(spadesCard?.className).toContain('border-slate-400')
+
+    // Hearts → border-red-400
+    const heartsCard = cardElements.find((el) => el.getAttribute('data-suit') === 'hearts')
+    expect(heartsCard?.className).toContain('border-red-400')
+
+    // Diamonds → border-amber-400
+    const diamondsCard = cardElements.find((el) => el.getAttribute('data-suit') === 'diamonds')
+    expect(diamondsCard?.className).toContain('border-amber-400')
+  })
+
+  it('renders face cards with tear-cut clip-path and min-height', () => {
+    renderShowcaseWithFaceCards()
+
+    const cardElements = screen.getAllByRole('listitem')
+
+    for (const card of cardElements) {
+      const style = card.getAttribute('style') || ''
+      // Should have the tear-cut clip-path (CSS property)
+      expect(style).toContain('clip-path')
+      expect(style).toContain('polygon')
+      // Should have min-height
+      expect(style).toContain('min-height')
+    }
   })
 
   it('renders face cards with no rounded corners', () => {
@@ -300,30 +364,30 @@ describe('Showcase — Mentor Face Cards', () => {
   })
 
   it('face card value without matching mentor falls back to basic card layout', () => {
-    // Value 11 with a suit that exists in MENTOR_PERSONAS but edge case: value 14
-    // Actually, let's test value 11 in a way that the mentor IS found — this test
-    // verifies that face cards with valid mentor lookups work (already covered above).
-    // Instead, test a card with value >= 11 where the mentorId is missing but
-    // getMentorByCard still finds it (since lookup is by suit+value, not mentorId).
-    // The lookup should work regardless of mentorId presence on the card.
-    const faceCardNoMentorId: Card[] = [
+    // Value 14 has no mentor persona — getMentorByCard returns undefined
+    // Only values 11/12/13 have mentors across the 4 suits
+    const faceCardNoMentor: Card[] = [
       {
-        id: 'seed-spades-11',
+        id: 'seed-spades-14',
         suit: 'spades',
-        value: 11,
-        name: 'Generic Jack',
-        description: 'Some description',
-        // No mentorId
+        value: 14,
+        name: 'Unknown Mentor',
+        description: 'No persona data available',
       },
     ]
-    sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(faceCardNoMentorId))
+    sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(faceCardNoMentor))
     render(
       <MemoryRouter>
         <Showcase />
       </MemoryRouter>,
     )
 
-    // ShowcaseCard renders card.name directly — no mentor lookup override
-    expect(screen.getByText('Generic Jack')).toBeInTheDocument()
+    // Falls back to tool card layout — renders card.name directly
+    expect(screen.getByText('Unknown Mentor')).toBeInTheDocument()
+    // Uses standard border (not suit accent)
+    const card = screen.getByRole('listitem')
+    expect(card.className).toContain('border-zinc-700')
+    // No portrait image
+    expect(screen.queryByRole('img')).toBeNull()
   })
 })
