@@ -268,8 +268,6 @@ describe('Showcase — Mentor Face Cards', () => {
     expect(screen.getByText(/Industrial Automation/)).toBeInTheDocument()
   })
 
-  it('renders face cards with common card styling', () => {
-
   it('renders face cards with no rounded corners', () => {
     renderShowcaseWithFaceCards()
 
@@ -325,8 +323,7 @@ describe('Showcase — Mentor Face Cards', () => {
       </MemoryRouter>,
     )
 
-    // getMentorByCard looks up by suit+value, so it should still find Jax Miller
-    // and render the mentor face card layout
-    expect(screen.getByText('Jaxon "Jax" Miller')).toBeInTheDocument()
+    // ShowcaseCard renders card.name directly — no mentor lookup override
+    expect(screen.getByText('Generic Jack')).toBeInTheDocument()
   })
 })

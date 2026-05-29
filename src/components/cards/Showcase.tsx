@@ -182,7 +182,7 @@ function ShowcaseTab({
 
 function ShowcaseCard({ card }: { card: Card }) {
   const meta = SUIT_META[card.suit]
-  const mentor = card.value >= 11 ? getMentorByCard(card.suit, card.value) : undefined
+  const mentor = (card.value >= 11 && card.mentorId) ? getMentorByCard(card.suit, card.value) : undefined
 
   if (mentor) {
     const borderColor = SUIT_BORDER[card.suit]
