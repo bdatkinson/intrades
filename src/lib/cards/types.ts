@@ -1,8 +1,8 @@
 // ─── Card Designer Type System ──────────────────────────────────
-// Suits: hammer (Tools & Tech), wrench (Diagnostics), voltmeter (Install/Maintain), plumb-bob (Layout/Measure)
+// Suits: spades (Structural/Heavy), hearts (Service/Relationships), diamonds (Business/Tech), clubs (Hustle/Contracting)
 // Cards have value 1-13 (Ace=1 through King=13), fixed to a suit.
 
-export const SUITS = ['hammer', 'wrench', 'voltmeter', 'plumb-bob'] as const
+export const SUITS = ['spades', 'hearts', 'diamonds', 'clubs'] as const
 export type Suit = (typeof SUITS)[number]
 
 export interface Card {
@@ -32,10 +32,10 @@ export interface SuitMeta {
 }
 
 export const SUIT_META: Record<Suit, SuitMeta> = {
-  hammer: { suit: 'hammer', label: 'Hammers', symbol: '🔨', color: 'slate' },
-  wrench: { suit: 'wrench', label: 'Wrenches', symbol: '🔧', color: 'amber' },
-  voltmeter: { suit: 'voltmeter', label: 'Voltmeters', symbol: '⚡', color: 'emerald' },
-  'plumb-bob': { suit: 'plumb-bob', label: 'Plumb-Bobs', symbol: '📐', color: 'sky' },
+  spades:   { suit: 'spades',   label: 'Spades',   symbol: '♠', color: 'slate' },
+  hearts:   { suit: 'hearts',   label: 'Hearts',   symbol: '♥', color: 'red' },
+  diamonds: { suit: 'diamonds', label: 'Diamonds', symbol: '♦', color: 'amber' },
+  clubs:    { suit: 'clubs',    label: 'Clubs',    symbol: '♣', color: 'emerald' },
 }
 
 /** 1-based index: value=1 → index 0, value=13 → index 12 */

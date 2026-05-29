@@ -3,9 +3,9 @@ import { Intc, IntcImportError, exportIntcDeck, downloadIntc, importIntc } from 
 import type { Card } from './types'
 
 const sampleCards: Card[] = [
-  { id: 'seed-hammer-1', suit: 'hammer', value: 1, name: 'Framing Hammer', description: 'Drive nails, pull lumber.' },
-  { id: 'seed-wrench-2', suit: 'wrench', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw grip.' },
-  { id: 'seed-voltmeter-3', suit: 'voltmeter', value: 3, name: 'Digital Multimeter', description: 'Diagnostic workhorse.' },
+  { id: 'seed-hammer-1', suit: 'spades', value: 1, name: 'Framing Hammer', description: 'Drive nails, pull lumber.' },
+  { id: 'seed-wrench-2', suit: 'clubs', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw grip.' },
+  { id: 'seed-voltmeter-3', suit: 'diamonds', value: 3, name: 'Digital Multimeter', description: 'Diagnostic workhorse.' },
 ]
 
 // ─── Intc namespace (legacy) ─────────────────────────────────
@@ -132,7 +132,7 @@ describe('importIntc', () => {
   it('throws IntcImportError when a card value is out of range', () => {
     expect(() => importIntc({
       version: 1,
-      cards: [{ id: 'x', suit: 'hammer', value: 14, name: 'X', description: '' }],
+      cards: [{ id: 'x', suit: 'spades', value: 14, name: 'X', description: '' }],
     })).toThrow(IntcImportError)
   })
 })

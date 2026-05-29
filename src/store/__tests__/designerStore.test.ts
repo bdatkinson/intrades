@@ -31,13 +31,13 @@ describe('designerStore', () => {
   it('commitMove updates cards via cascade and pushes undo snapshot', () => {
     // Seed cards: wrench@1, wrench@2, wrench@3
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
-      { id: 'w3', suit: 'wrench', value: 3, name: 'W3', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
+      { id: 'w3', suit: 'clubs', value: 3, name: 'W3', description: '' },
     ]
     useDesignerStore.setState({ cards })
 
-    getStore().commitMove('wrench', 3, 1)
+    getStore().commitMove('clubs', 3, 1)
 
     const state = getStore()
     // Card at value 3 moves to 1, value 1 to 2, value 2 to 3
@@ -52,12 +52,12 @@ describe('designerStore', () => {
 
   it('undo restores the previous cards snapshot and pops the stack', () => {
     const original: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards: [...original], undoStack: [] })
 
-    getStore().commitMove('wrench', 2, 1)
+    getStore().commitMove('clubs', 2, 1)
     expect(getStore().cards).not.toEqual(original)
 
     getStore().undo()
@@ -68,7 +68,7 @@ describe('designerStore', () => {
 
   it('undo is a no-op when undoStack is empty', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
     ]
     useDesignerStore.setState({ cards })
     getStore().undo()
@@ -77,8 +77,8 @@ describe('designerStore', () => {
 
   it('undoStack caps at 20 entries (FIFO)', () => {
     const base: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards: [...base], undoStack: [] })
 
@@ -86,7 +86,7 @@ describe('designerStore', () => {
     for (let i = 0; i < 25; i++) {
       // Toggle between two positions to generate unique states
       const v = i % 2 === 0 ? 2 : 1
-      getStore().commitMove('wrench', v, v === 1 ? 2 : 1)
+      getStore().commitMove('clubs', v, v === 1 ? 2 : 1)
     }
 
     expect(getStore().undoStack).toHaveLength(20)
@@ -94,16 +94,16 @@ describe('designerStore', () => {
 
   it('setDragPreview sets the drag preview state', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards })
 
-    getStore().setDragPreview('wrench', cards[1], 2, 1)
+    getStore().setDragPreview('clubs', cards[1], 2, 1)
 
     const preview = getStore().dragPreview
     expect(preview).not.toBeNull()
-    expect(preview?.suit).toBe('wrench')
+    expect(preview?.suit).toBe('clubs')
     expect(preview?.fromValue).toBe(2)
     expect(preview?.toValue).toBe(1)
     expect(preview?.card.id).toBe('w2')
@@ -113,11 +113,11 @@ describe('designerStore', () => {
 
   it('clearDragPreview sets dragPreview to null', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards })
-    getStore().setDragPreview('wrench', cards[1], 2, 1)
+    getStore().setDragPreview('clubs', cards[1], 2, 1)
     expect(getStore().dragPreview).not.toBeNull()
 
     getStore().clearDragPreview()
@@ -126,32 +126,32 @@ describe('designerStore', () => {
 
   it('computeDragPreview sets preview to null when fromValue === toValue', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
     ]
     useDesignerStore.setState({ cards })
-    getStore().setDragPreview('wrench', cards[0], 1, 1)
+    getStore().setDragPreview('clubs', cards[0], 1, 1)
     expect(getStore().dragPreview).toBeNull() // no-op drag (same position)
   })
 
   it('commitMove clears dragPreview after committing', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards })
-    getStore().setDragPreview('wrench', cards[1], 2, 1)
+    getStore().setDragPreview('clubs', cards[1], 2, 1)
 
-    getStore().commitMove('wrench', 2, 1)
+    getStore().commitMove('clubs', 2, 1)
     expect(getStore().dragPreview).toBeNull()
   })
 
   it('undoStack stores timestamps for each action', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards })
-    getStore().commitMove('wrench', 2, 1)
+    getStore().commitMove('clubs', 2, 1)
 
     const action = getStore().undoStack[0]
     expect(action.timestamp).toBeGreaterThan(0)
@@ -167,11 +167,11 @@ describe('designerStore', () => {
 
   it('undo pushes the current state onto redoStack', () => {
     const original: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards: [...original], undoStack: [], redoStack: [] })
-    getStore().commitMove('wrench', 2, 1)
+    getStore().commitMove('clubs', 2, 1)
 
     const stateBeforeUndo = getStore().cards
     getStore().undo()
@@ -187,11 +187,11 @@ describe('designerStore', () => {
 
   it('redo restores the most recent undone state', () => {
     const original: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards: [...original], undoStack: [], redoStack: [] })
-    getStore().commitMove('wrench', 2, 1)
+    getStore().commitMove('clubs', 2, 1)
     const afterMove = getStore().cards
 
     getStore().undo()
@@ -208,7 +208,7 @@ describe('designerStore', () => {
 
   it('redo is a no-op when redoStack is empty', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
     ]
     useDesignerStore.setState({ cards, redoStack: [] })
     getStore().redo()
@@ -217,41 +217,41 @@ describe('designerStore', () => {
 
   it('commitMove clears redoStack (new action invalidates redo history)', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
-      { id: 'w3', suit: 'wrench', value: 3, name: 'W3', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
+      { id: 'w3', suit: 'clubs', value: 3, name: 'W3', description: '' },
     ]
     useDesignerStore.setState({ cards: [...cards], undoStack: [], redoStack: [] })
 
     // First move
-    getStore().commitMove('wrench', 2, 1)
+    getStore().commitMove('clubs', 2, 1)
     // Undo it — this should populate redoStack
     getStore().undo()
     expect(getStore().redoStack).toHaveLength(1)
 
     // New move should clear redoStack
-    getStore().commitMove('wrench', 3, 1)
+    getStore().commitMove('clubs', 3, 1)
     expect(getStore().redoStack).toHaveLength(0)
   })
 
   it('multiple undo/redo cycles work correctly (5 actions → undo × 5 → redo × 5)', () => {
     const cards: Card[] = [
-      { id: 'a', suit: 'wrench', value: 1, name: 'A', description: '' },
-      { id: 'b', suit: 'wrench', value: 2, name: 'B', description: '' },
-      { id: 'c', suit: 'wrench', value: 3, name: 'C', description: '' },
-      { id: 'd', suit: 'wrench', value: 4, name: 'D', description: '' },
-      { id: 'e', suit: 'wrench', value: 5, name: 'E', description: '' },
-      { id: 'f', suit: 'wrench', value: 6, name: 'F', description: '' },
+      { id: 'a', suit: 'clubs', value: 1, name: 'A', description: '' },
+      { id: 'b', suit: 'clubs', value: 2, name: 'B', description: '' },
+      { id: 'c', suit: 'clubs', value: 3, name: 'C', description: '' },
+      { id: 'd', suit: 'clubs', value: 4, name: 'D', description: '' },
+      { id: 'e', suit: 'clubs', value: 5, name: 'E', description: '' },
+      { id: 'f', suit: 'clubs', value: 6, name: 'F', description: '' },
     ]
     const originalOrder = [...cards]
     useDesignerStore.setState({ cards: [...cards], undoStack: [], redoStack: [] })
 
     // 5 reorder actions
-    getStore().commitMove('wrench', 2, 1) // B→1
-    getStore().commitMove('wrench', 3, 1) // C→1 (after cascade)
-    getStore().commitMove('wrench', 4, 1) // D→1
-    getStore().commitMove('wrench', 5, 1) // E→1
-    getStore().commitMove('wrench', 6, 1) // F→1
+    getStore().commitMove('clubs', 2, 1) // B→1
+    getStore().commitMove('clubs', 3, 1) // C→1 (after cascade)
+    getStore().commitMove('clubs', 4, 1) // D→1
+    getStore().commitMove('clubs', 5, 1) // E→1
+    getStore().commitMove('clubs', 6, 1) // F→1
 
     const after5Moves = getStore().cards
     expect(after5Moves).not.toEqual(originalOrder)
@@ -275,15 +275,15 @@ describe('designerStore', () => {
 
   it('redoStack caps at 20 entries', () => {
     const base: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     useDesignerStore.setState({ cards: [...base], undoStack: [], redoStack: [] })
 
     // Perform 22 moves then undo all 22 — redoStack should only keep last 20
     for (let i = 0; i < 22; i++) {
       const v = i % 2 === 0 ? 2 : 1
-      getStore().commitMove('wrench', v, v === 1 ? 2 : 1)
+      getStore().commitMove('clubs', v, v === 1 ? 2 : 1)
     }
     // Undo all 22
     for (let i = 0; i < 22; i++) {

@@ -6,7 +6,7 @@ import type { Card } from '../../../lib/cards/types'
 
 const sampleCard: Card = {
   id: 'h1',
-  suit: 'hammer',
+  suit: 'spades',
   value: 1,
   name: 'Framing Hammer',
   description: 'Drive nails, pull lumber.',
@@ -114,7 +114,7 @@ describe('CardDetailSheet', () => {
     useDesignerStore.setState({
       cards: [
         sampleCard, // hammer at value 1
-        { id: 'h5', suit: 'hammer', value: 5, name: 'Ball-Peen', description: '' },
+        { id: 'h5', suit: 'spades', value: 5, name: 'Ball-Peen', description: '' },
       ],
       undoStack: [],
       redoStack: [],
@@ -131,7 +131,7 @@ describe('CardDetailSheet', () => {
     // Duplicate should be at the lowest empty value in hammer suit (value 2)
     const dup = state.cards.find(c => c.id !== 'h1' && c.id !== 'h5')
     expect(dup).toBeDefined()
-    expect(dup?.suit).toBe('hammer')
+    expect(dup?.suit).toBe('spades')
     expect(dup?.value).toBe(2) // next empty slot after value 1
   })
 

@@ -1,41 +1,30 @@
 import type { Suit } from '../../lib/cards/types'
 
-/** Inline SVG emblems for each card designer suit. */
+/** Inline SVG emblems for each playing card suit. */
 export function SuitEmblem({ suit, size = 24 }: { suit: Suit; size?: number }) {
   switch (suit) {
-    case 'hammer':
+    case 'spades':
       return (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M15 12l-4-4m0 0l-3 3m3-3l3-3m-3 3l-3 7m3-7l3 7" />
-          <path d="M8 21l2-2" />
-          <rect x="3" y="6" width="4" height="8" rx="1" />
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-label="Spades">
+          <path d="M12 2 C12 2 3 9 3 14 C3 17.3 5.7 20 9 20 C10.1 20 11.1 19.7 12 19.1 C11.5 20.4 11 21.3 10 22 L14 22 C13 21.3 12.5 20.4 12 19.1 C12.9 19.7 13.9 20 15 20 C18.3 20 21 17.3 21 14 C21 9 12 2 12 2Z" />
         </svg>
       )
-    case 'wrench':
+    case 'hearts':
       return (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-label="Hearts">
+          <path d="M12 21.593C11.426 21.071 2 13.793 2 8 C2 4.686 4.686 2 8 2 C9.858 2 11.505 2.865 12 4 C12.495 2.865 14.142 2 16 2 C19.314 2 22 4.686 22 8 C22 13.793 12.574 21.071 12 21.593Z" />
         </svg>
       )
-    case 'voltmeter':
+    case 'diamonds':
       return (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <path d="M8 12h8" />
-          <path d="M12 8v8" />
-          <circle cx="12" cy="12" r="1" fill="currentColor" />
-          <path d="M16 8l-4 4" />
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-label="Diamonds">
+          <path d="M12 2 L22 12 L12 22 L2 12 Z" />
         </svg>
       )
-    case 'plumb-bob':
+    case 'clubs':
       return (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 2v8" />
-          <path d="M12 10l-6 6" />
-          <path d="M12 10l6 6" />
-          <path d="M7 19l-2 3" />
-          <path d="M17 19l2 3" />
-          <circle cx="12" cy="18" r="2" />
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-label="Clubs">
+          <path d="M12 2 C10.3 2 9 3.3 9 5 C9 5.9 9.4 6.7 10 7.3 C8.6 7.1 7 7.9 6.3 9.2 C5.5 10.7 6 12.5 7.5 13.3 C6.9 13.1 6.2 13 5.5 13.2 L7 22 L17 22 L18.5 13.2 C17.8 13 17.1 13.1 16.5 13.3 C18 12.5 18.5 10.7 17.7 9.2 C17 7.9 15.4 7.1 14 7.3 C14.6 6.7 15 5.9 15 5 C15 3.3 13.7 2 12 2Z" />
         </svg>
       )
   }
@@ -45,10 +34,10 @@ export function SuitEmblem({ suit, size = 24 }: { suit: Suit; size?: number }) {
 export function SuitEmblems({ size = 24 }: { size?: number }) {
   return (
     <div className="flex gap-2" aria-label="Suit emblems">
-      <SuitEmblem suit="hammer" size={size} />
-      <SuitEmblem suit="wrench" size={size} />
-      <SuitEmblem suit="voltmeter" size={size} />
-      <SuitEmblem suit="plumb-bob" size={size} />
+      <SuitEmblem suit="spades" size={size} />
+      <SuitEmblem suit="hearts" size={size} />
+      <SuitEmblem suit="diamonds" size={size} />
+      <SuitEmblem suit="clubs" size={size} />
     </div>
   )
 }

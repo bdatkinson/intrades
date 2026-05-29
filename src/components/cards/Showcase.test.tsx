@@ -9,12 +9,12 @@ const PREVIEW_KEY = 'intrades-preview-cards'
 
 function buildCards(): Card[] {
   return [
-    { id: 'h1', suit: 'hammer', value: 1, name: 'Framing Hammer', description: 'Drive nails, pull lumber.' },
-    { id: 'h5', suit: 'hammer', value: 5, name: 'Ball-Peen Hammer', description: 'Shape metal, set rivets.' },
-    { id: 'w2', suit: 'wrench', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw grip.' },
-    { id: 'w6', suit: 'wrench', value: 6, name: 'Torque Wrench', description: 'Calibrated click.' },
-    { id: 'v3', suit: 'voltmeter', value: 3, name: 'Digital Multimeter', description: 'Measure voltage, current.' },
-    { id: 'p4', suit: 'plumb-bob', value: 4, name: 'Brass Plumb Bob', description: 'Gravity never lies.' },
+    { id: 'h1', suit: 'spades', value: 1, name: 'Framing Hammer', description: 'Drive nails, pull lumber.' },
+    { id: 'h5', suit: 'spades', value: 5, name: 'Ball-Peen Hammer', description: 'Shape metal, set rivets.' },
+    { id: 'w2', suit: 'clubs', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw grip.' },
+    { id: 'w6', suit: 'clubs', value: 6, name: 'Torque Wrench', description: 'Calibrated click.' },
+    { id: 'v3', suit: 'diamonds', value: 3, name: 'Digital Multimeter', description: 'Measure voltage, current.' },
+    { id: 'p4', suit: 'hearts', value: 4, name: 'Brass Plumb Bob', description: 'Gravity never lies.' },
   ]
 }
 
@@ -41,7 +41,7 @@ describe('Showcase', () => {
     expect(screen.getByRole('heading', { name: /student preview/i })).toBeInTheDocument()
   })
 
-  it('renders suit filter tabs for All, Hammers, Wrenches, Voltmeters, Plumb-Bobs', () => {
+  it('renders suit filter tabs for All, Spades, Clubs, Diamonds, Hearts', () => {
     sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(buildCards()))
     renderShowcase()
 
@@ -53,8 +53,8 @@ describe('Showcase', () => {
 
     const tabNames = tabs.map((t) => t.textContent || '')
     expect(tabNames.some((t) => t.toLowerCase().includes('all'))).toBeTruthy()
-    expect(tabNames.some((t) => t.toLowerCase().includes('hammer'))).toBeTruthy()
-    expect(tabNames.some((t) => t.toLowerCase().includes('wrench'))).toBeTruthy()
+    expect(tabNames.some((t) => t.toLowerCase().includes('spades'))).toBeTruthy()
+    expect(tabNames.some((t) => t.toLowerCase().includes('clubs'))).toBeTruthy()
     expect(tabNames.some((t) => t.toLowerCase().includes('volt'))).toBeTruthy()
     expect(tabNames.some((t) => t.toLowerCase().includes('plumb'))).toBeTruthy()
   })
@@ -79,7 +79,7 @@ describe('Showcase', () => {
     const cardElements = screen.getAllByRole('listitem')
     expect(cardElements).toHaveLength(2) // h1 + h5
     for (const card of cardElements) {
-      expect(card.getAttribute('data-suit')).toBe('hammer')
+      expect(card.getAttribute('data-suit')).toBe('spades')
     }
   })
 
@@ -94,7 +94,7 @@ describe('Showcase', () => {
     const cardElements = screen.getAllByRole('listitem')
     expect(cardElements).toHaveLength(2) // w2 + w6
     for (const card of cardElements) {
-      expect(card.getAttribute('data-suit')).toBe('wrench')
+      expect(card.getAttribute('data-suit')).toBe('clubs')
     }
   })
 
@@ -186,7 +186,7 @@ describe('Showcase', () => {
     const user = userEvent.setup()
     // Only wrench cards
     const wrenchOnly: Card[] = [
-      { id: 'w2', suit: 'wrench', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw.' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw.' },
     ]
     sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(wrenchOnly))
     renderShowcase()

@@ -16,11 +16,11 @@ function card(suit: Suit, value: number, id?: string): Card {
 describe('computeCascade', () => {
   it('cascades downward: dragging 7→3 shifts 3→4, 4→5, 5→6, 6→7', () => {
     const cards: Card[] = [
-      card('wrench', 1), card('wrench', 2), card('wrench', 3),
-      card('wrench', 4), card('wrench', 5), card('wrench', 6),
-      card('wrench', 7), card('wrench', 8), card('wrench', 9),
+      card('clubs', 1), card('clubs', 2), card('clubs', 3),
+      card('clubs', 4), card('clubs', 5), card('clubs', 6),
+      card('clubs', 7), card('clubs', 8), card('clubs', 9),
     ]
-    const result = computeCascade(cards, 'wrench', 7, 3)
+    const result = computeCascade(cards, 'clubs', 7, 3)
 
     // Dragged card 7 should now be at value 3
     expect(result.find(c => c.id === 'wrench-7')?.value).toBe(3)
@@ -42,10 +42,10 @@ describe('computeCascade', () => {
 
   it('cascades upward: dragging 2→5 shifts 3→2, 4→3, 5→4', () => {
     const cards: Card[] = [
-      card('wrench', 1), card('wrench', 2), card('wrench', 3),
-      card('wrench', 4), card('wrench', 5), card('wrench', 6),
+      card('clubs', 1), card('clubs', 2), card('clubs', 3),
+      card('clubs', 4), card('clubs', 5), card('clubs', 6),
     ]
-    const result = computeCascade(cards, 'wrench', 2, 5)
+    const result = computeCascade(cards, 'clubs', 2, 5)
 
     // Dragged card 2 should now be at value 5
     expect(result.find(c => c.id === 'wrench-2')?.value).toBe(5)
@@ -63,26 +63,26 @@ describe('computeCascade', () => {
 
   it('returns the same array (identity) when fromValue == toValue', () => {
     const cards: Card[] = [
-      card('wrench', 1), card('wrench', 2), card('wrench', 3),
+      card('clubs', 1), card('clubs', 2), card('clubs', 3),
     ]
-    const result = computeCascade(cards, 'wrench', 2, 2)
+    const result = computeCascade(cards, 'clubs', 2, 2)
     expect(result).toEqual(cards)
   })
 
   it('returns the same array when card not found in suit', () => {
     const cards: Card[] = [
-      card('wrench', 1), card('wrench', 2),
+      card('clubs', 1), card('clubs', 2),
     ]
-    const result = computeCascade(cards, 'wrench', 99, 5)
+    const result = computeCascade(cards, 'clubs', 99, 5)
     expect(result).toEqual(cards)
   })
 
   it('does not affect cards in other suits', () => {
     const cards: Card[] = [
-      card('wrench', 1), card('wrench', 2), card('wrench', 3),
-      card('hammer', 1), card('hammer', 2), card('hammer', 3),
+      card('clubs', 1), card('clubs', 2), card('clubs', 3),
+      card('spades', 1), card('spades', 2), card('spades', 3),
     ]
-    const result = computeCascade(cards, 'wrench', 3, 1)
+    const result = computeCascade(cards, 'clubs', 3, 1)
 
     // Hammer cards untouched
     expect(result.find(c => c.id === 'hammer-1')?.value).toBe(1)
@@ -92,15 +92,15 @@ describe('computeCascade', () => {
 
   it('preserves card identity (same objects, same IDs, same suits)', () => {
     const cards: Card[] = [
-      card('wrench', 1, 'a'), card('wrench', 2, 'b'), card('wrench', 3, 'c'),
+      card('clubs', 1, 'a'), card('clubs', 2, 'b'), card('clubs', 3, 'c'),
     ]
-    const result = computeCascade(cards, 'wrench', 3, 1)
+    const result = computeCascade(cards, 'clubs', 3, 1)
 
     // Same objects, just repositioned values
     expect(result[0].id).toBe('a')
     expect(result[1].id).toBe('b')
     expect(result[2].id).toBe('c')
-    expect(result.every(c => c.suit === 'wrench')).toBe(true)
+    expect(result.every(c => c.suit === 'clubs')).toBe(true)
     // With drag c(3)→1: result = c@1, a@2, b@3
     expect(result.find(c => c.id === 'a')?.value).toBe(2)
     expect(result.find(c => c.id === 'b')?.value).toBe(3)
@@ -108,17 +108,17 @@ describe('computeCascade', () => {
   })
 
   it('handles single-card suit (no-op)', () => {
-    const cards: Card[] = [card('wrench', 1)]
-    const result = computeCascade(cards, 'wrench', 1, 1)
+    const cards: Card[] = [card('clubs', 1)]
+    const result = computeCascade(cards, 'clubs', 1, 1)
     expect(result).toEqual(cards)
   })
 
   it('cascades correctly with gaps in values (sparse suit)', () => {
     // Only values 1, 5, and 9 occupied in this suit
     const cards: Card[] = [
-      card('plumb-bob', 1), card('plumb-bob', 5), card('plumb-bob', 9),
+      card('hearts', 1), card('hearts', 5), card('hearts', 9),
     ]
-    const result = computeCascade(cards, 'plumb-bob', 9, 1)
+    const result = computeCascade(cards, 'hearts', 9, 1)
 
     // 9 moves to 1, 1 moves to 5, 5 moves to 9
     expect(result.find(c => c.id === 'plumb-bob-9')?.value).toBe(1)

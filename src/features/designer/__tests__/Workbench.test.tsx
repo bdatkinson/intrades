@@ -26,10 +26,10 @@ describe('Workbench', () => {
 
   it('renders all 4 suit columns', () => {
     renderWorkbench()
-    expect(screen.getByText('Hammers')).toBeDefined()
-    expect(screen.getByText('Wrenches')).toBeDefined()
-    expect(screen.getByText('Voltmeters')).toBeDefined()
-    expect(screen.getByText('Plumb-Bobs')).toBeDefined()
+    expect(screen.getByText('Spades')).toBeDefined()
+    expect(screen.getByText('Clubs')).toBeDefined()
+    expect(screen.getByText('Diamonds')).toBeDefined()
+    expect(screen.getByText('Hearts')).toBeDefined()
   })
 
   it('renders Undo button in the dock', () => {
@@ -40,8 +40,8 @@ describe('Workbench', () => {
 
   it('Undo button shows undo stack depth when non-empty', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     const action = {
       cards: [...cards],
@@ -57,8 +57,8 @@ describe('Workbench', () => {
 
   it('clicking Undo button calls undo() on store', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     const modified = [
       { ...cards[0], value: 2 },
@@ -78,8 +78,8 @@ describe('Workbench', () => {
 
   it('Cmd+Z triggers undo via keyboard', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     const modified = [
       { ...cards[0], value: 2 },
@@ -97,8 +97,8 @@ describe('Workbench', () => {
 
   it('Cmd+Shift+Z triggers redo via keyboard', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     const modified = [
       { ...cards[0], value: 2 },
@@ -116,8 +116,8 @@ describe('Workbench', () => {
 
   it('Ctrl+Z triggers undo (Windows/Linux)', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     const modified = [
       { ...cards[0], value: 2 },
@@ -135,8 +135,8 @@ describe('Workbench', () => {
 
   it('Ctrl+Shift+Z triggers redo (Windows/Linux)', () => {
     const cards: Card[] = [
-      { id: 'w1', suit: 'wrench', value: 1, name: 'W1', description: '' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'W2', description: '' },
+      { id: 'w1', suit: 'clubs', value: 1, name: 'W1', description: '' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'W2', description: '' },
     ]
     const modified = [
       { ...cards[0], value: 2 },
@@ -211,8 +211,8 @@ describe('Workbench', () => {
 
   it('Preview as Student saves cards to sessionStorage and navigates to /deck', () => {
     const cards: Card[] = [
-      { id: 'h1', suit: 'hammer', value: 1, name: 'Framing Hammer', description: 'Drive nails.' },
-      { id: 'w2', suit: 'wrench', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw.' },
+      { id: 'h1', suit: 'spades', value: 1, name: 'Framing Hammer', description: 'Drive nails.' },
+      { id: 'w2', suit: 'clubs', value: 2, name: 'Pipe Wrench', description: 'Serrated jaw.' },
     ]
     useDesignerStore.setState({ cards, undoStack: [], redoStack: [], dragPreview: null })
 
